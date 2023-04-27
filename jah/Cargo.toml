@@ -1,0 +1,30 @@
+[package]
+name = "jah"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["dylib"]
+
+[dependencies]
+# retour = { git = "https://github.com/Hpmason/retour-rs" }
+# lazy_static = "1.4.0"
+convert_case = "0.6.0"
+
+bruma = { version = "0.1.0", path = "../bruma" }
+
+
+# [build-dependencies]
+# bindgen = "0.53.1"
+
+# [dependencies.windows]
+# version = "0.48"
+# features = [
+#     "Data_Xml_Dom",
+#     "Win32_Foundation",
+#     "Win32_Security",
+#     "Win32_System_Threading",
+#     "Win32_UI_WindowsAndMessaging",
+#     "Win32_System_Console",
+#     "Win32_System_LibraryLoader",
+# ]

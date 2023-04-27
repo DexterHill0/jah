@@ -1,0 +1,13 @@
+[package]
+name = "bruma"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+logos = "0.13.0"
+ahash = { version = "0.8.3", features = ["serde"] }
+serde = { version = "1.0.160", features = ["derive"], optional = true }
+colored = "2.0.0"
+
+[features]
+serde = ["dep:serde"]
