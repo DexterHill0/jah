@@ -2,13 +2,16 @@
 
 #include "iostream"
 
-Map get() {
-    std::map<uint8_t, uint8_t> map{{10, 20}};
-    // std::unique_ptr<Map> x = std::make_unique<Map>(map);
+Map *get() {
+    std::map<uint8_t, uint8_t> map{{20, 10}, {200, 100}, {60, 15}, {69, 69}};
+    std::unique_ptr<Map> x = std::make_unique<Map>(map);
 
-    // return x.release();
-    return map;
+    return x.release();
 }
+
+// void pass(Map2& map) {
+//     std::cout << map.size() << std::endl;
+// }
 
 // std::unique_ptr<std::vector<uint8_t>> __get_vec() {
 //     std::vector<uint8_t> vec = {
