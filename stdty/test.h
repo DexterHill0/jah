@@ -1,10 +1,11 @@
 #include <map>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "./include/cxx.h"
 
-using Map = std::map<uint8_t, uint8_t>;
+using Map = std::map<std::string, rust::isize>;
 
 // using Map2 = rust::Map<uint8_t, uint8_t>;
 

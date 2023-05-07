@@ -1,16 +1,9 @@
-use std::collections::BTreeMap;
-
-use cxx::kind::{Opaque, Trivial};
-use cxx::ExternType;
-
 use core::ffi::c_void;
-use core::fmt::{self, Debug};
-use core::iter::FusedIterator;
+use core::fmt::{self};
 use core::marker::{PhantomData, PhantomPinned};
-use core::mem::{self, ManuallyDrop, MaybeUninit};
+use core::mem::{ManuallyDrop, MaybeUninit};
 use core::pin::Pin;
-use core::slice;
-use std::collections::btree_map::Iter;
+use std::collections::BTreeMap;
 
 #[repr(C, packed)]
 pub struct CxxMap<K, V>
@@ -53,6 +46,25 @@ where
     }
 }
 
+impl<'m, K, V> CxxMap<K, V>
+where
+    K: MapElement + Copy + std::cmp::Ord + 'm,
+    V: MapElement + Copy + 'm,
+    Entries<'m, K, V>: Iterator<Item = (&'m K, &'m V)>,
+{
+    pub fn to_btreemap(&'m self) -> BTreeMap<K, V> {
+        let mut map = BTreeMap::new();
+        for (k, v) in self.entries() {
+            map.insert(*k, *v);
+        }
+        map
+    }
+
+    pub fn to_rust_map(&'m self) -> crate::RustMap<K, V> {
+        crate::RustMap::from(self.to_btreemap())
+    }
+}
+
 pub struct Keys<'a, K, V>
 where
     K: MapElement,
@@ -83,18 +95,20 @@ where
     _phantom: PhantomData<(K, V)>,
 }
 
-#[repr(C, packed)]
-pub struct Pair<T1, T2> {
-    pub left: T1,
-    pub right: T2,
-}
-
 #[allow(clippy::missing_safety_doc)]
 pub unsafe trait MapElement: Sized {}
 
 macro_rules! impl_map_element {
-    ($kel:ident, $ksegment:expr, $vel:ident, $vsegment:expr) => {
+    ($kattr:meta, $vattr:meta, $kel:ident, $ksegment:expr, $vel:ident, $vsegment:expr) => {
+        #[$kattr]
+        #[$vattr]
+        cxx::const_assert_eq!(0, std::mem::size_of::<CxxMap<$kel, $vel>>());
+        #[$kattr]
+        #[$vattr]
+        cxx::const_assert_eq!(1, std::mem::align_of::<CxxMap<$kel, $vel>>());
 
+        #[$kattr]
+        #[$vattr]
         impl<'m> Iterator for Keys<'m, $kel, $vel>
         {
             type Item = &'m $kel;
@@ -114,6 +128,8 @@ macro_rules! impl_map_element {
             }
         }
 
+        #[$kattr]
+        #[$vattr]
         impl<'m> ExactSizeIterator for Keys<'m, $kel, $vel>
         {
             fn len(&self) -> usize {
@@ -122,9 +138,11 @@ macro_rules! impl_map_element {
         }
 
         ///
+        #[$kattr]
+        #[$vattr]
         impl<'m> Iterator for Values<'m, $kel, $vel>
         {
-            type Item = &'m $kel;
+            type Item = &'m $vel;
 
             fn next(&mut self) -> Option<Self::Item> {
                 let next = unsafe { self.map.value_by_index(self.index) };
@@ -141,6 +159,8 @@ macro_rules! impl_map_element {
             }
         }
 
+        #[$kattr]
+        #[$vattr]
         impl<'m> ExactSizeIterator for Values<'m, $kel, $vel>
         {
             fn len(&self) -> usize {
@@ -149,6 +169,8 @@ macro_rules! impl_map_element {
         }
 
         ///
+        #[$kattr]
+        #[$vattr]
         impl<'m> Iterator for Entries<'m, $kel, $vel>
         {
             type Item = (&'m $kel, &'m $vel);
@@ -169,6 +191,8 @@ macro_rules! impl_map_element {
             }
         }
 
+        #[$kattr]
+        #[$vattr]
         impl<'m> ExactSizeIterator for Entries<'m, $kel, $vel>
         {
             fn len(&self) -> usize {
@@ -176,25 +200,15 @@ macro_rules! impl_map_element {
             }
         }
 
+        #[$kattr]
+        #[$vattr]
         impl CxxMap<$kel, $vel>
         {
-            pub fn to_btreemap(&self) -> BTreeMap<$kel, $vel> {
-                let mut map = BTreeMap::new();
-                for (k, v) in self.entries() {
-                    map.insert(*k, *v);
-                }
-                return map;
-            }
-
-            pub fn to_rust_map(&self) -> crate::RustMap<$kel, $vel> {
-                crate::RustMap::from(self.to_btreemap())
-            }
-
-            pub(crate) unsafe fn value_by_index(&self, index: usize) -> &$kel {
+            pub(crate) unsafe fn value_by_index(&self, index: usize) -> &$vel {
                 extern "C" {
                     cxx::attr! {
                         #[link_name = concat!("stdtybridge$std$map$k$", $ksegment, "$v$", $vsegment, "$value_by_index")]
-                        fn __value_by_index(m: &CxxMap<$kel, $vel>, index: usize) -> &$kel;
+                        fn __value_by_index(m: &CxxMap<$kel, $vel>, index: usize) -> &$vel;
                     }
                 }
                 unsafe { __value_by_index(self, index) }
@@ -254,7 +268,7 @@ macro_rules! impl_map_element {
 
             pub fn get_val_mut(self: Pin<&mut Self>, key: &$kel) -> Option<Pin<&mut $vel>> {
                 if self.contains_key(key) {
-                    Some(unsafe { CxxMap::get_unchecked_mut(self, key) })
+                    Some(unsafe { CxxMap::<$kel, $vel>::get_unchecked_mut(self, key) })
                 } else {
                     None
                 }
@@ -285,7 +299,7 @@ macro_rules! impl_map_element {
                 extern "C" {
                     cxx::attr! {
                         #[link_name = concat!("stdtybridge$std$map$k$", $ksegment, "$v$", $vsegment, "$get_unchecked_mut")]
-                        fn __get_unchecked_mut(m: *mut CxxMap<$kel, $vel>, key: &$kel) -> *mut $kel;
+                        fn __get_unchecked_mut(m: *mut CxxMap<$kel, $vel>, key: &$kel) -> *mut $vel;
                     }
                 }
                 let ptr = unsafe { __get_unchecked_mut(Pin::get_unchecked_mut(self), key) };
@@ -293,6 +307,8 @@ macro_rules! impl_map_element {
             }
         }
 
+        #[$kattr]
+        #[$vattr]
         unsafe impl cxx::memory::UniquePtrTarget for CxxMap<$kel, $vel> {
             fn __typename(f: &mut fmt::Formatter) -> fmt::Result {
                 f.write_str(&format!("CxxMap<{}, {}>", $ksegment, $vsegment))
@@ -357,212 +373,64 @@ macro_rules! impl_map_element {
 
 macro_rules! impl_map_combinations_for_primitive {
     (
-        $($tys:ident),*
+        $(
+            #[$attrs:meta]
+            $tys:ident
+        ),*
     ) => {
         $(
+            #[$attrs]
             unsafe impl MapElement for $tys {}
         )*
 
-        impl_map_combinations_for_primitive!(@gen $($tys),* # $($tys)*);
+        impl_map_combinations_for_primitive!(@gen $($attrs),* ~ $($attrs)* ~ $($tys),* # $($tys)*);
     };
 
-    (@gen $curr:ident, $($rest:ident),* # $($all:ident)*) => {
+    (@gen $curr_attr:meta, $($rest_attrs:meta),* ~ $($all_attrs:meta)* ~ $curr:ident, $($rest:ident),* # $($all:ident)*) => {
         $(
-            impl_map_element!($curr, stringify!($curr), $all, stringify!($all));
+            impl_map_element!($curr_attr, $all_attrs, $curr, stringify!($curr), $all, stringify!($all));
         )*
 
-        impl_map_combinations_for_primitive!(@gen $($rest),* # $($all)*);
+        impl_map_combinations_for_primitive!(@gen $($rest_attrs),* ~ $($all_attrs)* ~ $($rest),* # $($all)*);
     };
 
-    (@gen $final:ident # $($all:ident)*) => {
+    (@gen $final_attr:meta ~ $($all_attrs:meta)* ~ $final:ident # $($all:ident)*) => {
         $(
-            impl_map_element!($final, stringify!($final), $all, stringify!($all));
+            impl_map_element!($final_attr, $all_attrs, $final, stringify!($final), $all, stringify!($all));
         )*
     }
 }
 
+#[allow(non_camel_case_types)]
+type string = cxx::CxxString;
+
 impl_map_combinations_for_primitive! {
-    u8//, u16, u32, u64, i8, i16, i32, i64, f32, f64, usize, isize
+    #[cfg(feature = "map_bool")]
+    bool,
+    #[cfg(feature = "map_u8")]
+    u8,
+    #[cfg(feature = "map_u16")]
+    u16,
+    #[cfg(feature = "map_u32")]
+    u32,
+    #[cfg(feature = "map_u64")]
+    u64,
+    #[cfg(feature = "map_i8")]
+    i8,
+    #[cfg(feature = "map_i16")]
+    i16,
+    #[cfg(feature = "map_i32")]
+    i32,
+    #[cfg(feature = "map_i64")]
+    i64,
+    #[cfg(feature = "map_usize")]
+    usize,
+    #[cfg(feature = "map_isize")]
+    isize,
+    #[cfg(feature = "map_string")]
+    string,
+    #[cfg(feature = "map_f32")]
+    f32,
+    #[cfg(feature = "map_f64")]
+    f64
 }
-// impl<K, V> CxxMap<K, V>
-// where
-//     K: MapKey<V>,
-// {
-//     pub fn insert(self: Pin<&mut Self>, key: K, value: V)
-//     where
-//         K: ExternType<Kind = Trivial>,
-//         V: ExternType<Kind = Trivial>,
-//     {
-//         let mut key = ManuallyDrop::new(key);
-//         let mut value = ManuallyDrop::new(value);
-//         unsafe { K::__insert(self, &mut key, &mut value) }
-//     }
-
-//     pub fn get(&self, key: &K) -> Option<&V> {
-//         if self.contains_key(key) {
-//             Some(unsafe { self.get_unchecked(key) })
-//         } else {
-//             None
-//         }
-//     }
-
-//     pub fn contains_key(&self, key: &K) -> bool {
-//         unsafe { K::__contains_key(self, key) }
-//     }
-
-//     pub unsafe fn get_unchecked(&self, key: &K) -> &V {
-//         unsafe {
-//             let ptr = K::__get_unchecked(self, key) as *const V;
-//             &*ptr
-//         }
-//     }
-// }
-
-// #[allow(clippy::missing_safety_doc)]
-// pub unsafe trait MapKey<V>: Sized {
-//     #[doc(hidden)]
-//     unsafe fn __insert(
-//         m: Pin<&mut CxxMap<Self, V>>,
-//         key: &mut ManuallyDrop<Self>,
-//         value: &mut ManuallyDrop<V>,
-//     ) {
-//         let _ = m;
-//         let _ = key;
-//         let _ = value;
-//         unreachable!()
-//     }
-
-//     #[doc(hidden)]
-//     unsafe fn __get_unchecked(m: &CxxMap<Self, V>, key: &Self) -> *mut Self;
-
-//     #[doc(hidden)]
-//     unsafe fn __contains_key(m: &CxxMap<Self, V>, key: &Self) -> bool;
-// }
-
-// macro_rules! impl_map_element {
-//     ($kel:ident, $ksegment:expr, $vel:ident, $vsegment:expr) => {
-//         unsafe impl MapKey<$vel> for $kel {
-//             unsafe fn __insert(
-//                 m: Pin<&mut CxxMap<Self, $vel>>,
-//                 key: &mut ManuallyDrop<Self>,
-//                 value: &mut ManuallyDrop<$vel>,
-//             ) {
-//                 extern "C" {
-//                     cxx::attr! {
-//                         #[link_name = concat!("stdtybridge$std$map$k$", $ksegment, "$v$", $vsegment, "$insert")]
-//                         fn __insert(_: Pin<&mut CxxMap<$kel, $vel>>, _: &mut ManuallyDrop<$kel>, _: &mut ManuallyDrop<$vel>);
-//                     }
-//                 }
-//                 unsafe { __insert(m, key, value) }
-//             }
-
-//             unsafe fn __get_unchecked(m: &CxxMap<Self, $vel>, key: &Self) -> *mut Self {
-//                 extern "C" {
-//                     cxx::attr! {
-//                         #[link_name = concat!("stdtybridge$std$map$k$", $ksegment, "$v$", $vsegment, "$get_unchecked")]
-//                         fn __insert(m: &CxxMap<$kel, $vel>, key: &$kel) -> *mut $kel;
-//                     }
-//                 }
-//                 unsafe { __insert(m, key) }
-//             }
-
-//             unsafe fn __contains_key(m: &CxxMap<Self, $vel>, key: &Self) -> bool {
-//                 extern "C" {
-//                     cxx::attr! {
-//                         #[link_name = concat!("stdtybridge$std$map$k$", $ksegment, "$v$", $vsegment, "$contains_key")]
-//                         fn __contains_key(m: &CxxMap<$kel, $vel>, key: &$kel) -> bool;
-//                     }
-//                 }
-//                 unsafe { __contains_key(m, key) }
-//             }
-//         }
-
-//         unsafe impl cxx::memory::UniquePtrTarget for CxxMap<$kel, $vel> {
-//             fn __typename(f: &mut fmt::Formatter) -> fmt::Result {
-//                 f.write_str($ksegment)?;
-//                 f.write_str(",")?;
-//                 f.write_str($vsegment)
-//             }
-
-//             fn __null() -> MaybeUninit<*mut c_void> {
-//                 extern "C" {
-//                     cxx::attr! {
-//                         #[link_name = concat!("stdtybridge$unique_ptr$std$map$k$", $ksegment, "$v$", $vsegment, "$null")]
-//                         fn __null(this: *mut MaybeUninit<*mut c_void>);
-//                     }
-//                 }
-//                 let mut repr = MaybeUninit::uninit();
-//                 unsafe { __null(&mut repr) }
-//                 repr
-//             }
-
-//             unsafe fn __raw(raw: *mut Self) -> MaybeUninit<*mut c_void> {
-//                 extern "C" {
-//                     cxx::attr! {
-//                         #[link_name = concat!("stdtybridge$unique_ptr$std$map$k$", $ksegment, "$v$", $vsegment, "$raw")]
-//                         fn __raw(this: *mut MaybeUninit<*mut c_void>, raw: *mut CxxMap<$kel, $vel>);
-//                     }
-//                 }
-//                 let mut repr = MaybeUninit::uninit();
-//                 unsafe { __raw(&mut repr, raw) }
-//                 repr
-//             }
-
-//             unsafe fn __get(repr: MaybeUninit<*mut c_void>) -> *const Self {
-//                 extern "C" {
-//                     cxx::attr! {
-//                         #[link_name = concat!("stdtybridge$unique_ptr$std$map$k$", $ksegment, "$v$", $vsegment, "$get")]
-//                         fn __get(this: *const MaybeUninit<*mut c_void>) -> *const CxxMap<$kel, $vel>;
-//                     }
-//                 }
-//                 unsafe { __get(&repr) }
-//             }
-
-//             unsafe fn __release(mut repr: MaybeUninit<*mut c_void>) -> *mut Self {
-//                 extern "C" {
-//                     cxx::attr! {
-//                         #[link_name = concat!("stdtybridge$unique_ptr$std$map$k$", $ksegment, "$v$", $vsegment, "$release")]
-//                         fn __release(this: *mut MaybeUninit<*mut c_void>) -> *mut CxxMap<$kel, $vel>;
-//                     }
-//                 }
-//                 unsafe { __release(&mut repr) }
-//             }
-
-//             unsafe fn __drop(mut repr: MaybeUninit<*mut c_void>) {
-//                 extern "C" {
-//                     cxx::attr! {
-//                         #[link_name = concat!("stdtybridge$unique_ptr$std$map$k$", $ksegment, "$v$", $vsegment, "$drop")]
-//                         fn __drop(this: *mut MaybeUninit<*mut c_void>);
-//                     }
-//                 }
-//                 unsafe { __drop(&mut repr) }
-//             }
-//         }
-//     };
-// }
-
-// macro_rules! impl_map_combinations_for_primitive {
-//     (
-//         $($tys:ident),*
-//     ) => {
-//         impl_map_combinations_for_primitive!(@gen $($tys),* # $($tys)*);
-//     };
-
-//     (@gen $curr:ident, $($rest:ident),* # $($all:ident)*) => {
-//         $(
-//             impl_map_element!($curr, stringify!($curr), $all, stringify!($all));
-//         )*
-
-//         impl_map_combinations_for_primitive!(@gen $($rest),* # $($all)*);
-//     };
-
-//     (@gen $final:ident # $($all:ident)*) => {
-//         $(
-//             impl_map_element!($final, stringify!($final), $all, stringify!($all));
-//         )*
-//     }
-// }
-
-// impl_map_combinations_for_primitive! {
-//     u8//, u16, u32, u64, i8, i16, i32, i64, f32, f64, usize, isize
-// }

@@ -2,8 +2,24 @@
 #include <array>
 #include <map>
 #include <memory>
+#include <string>
+#if defined(_WIN32)
+#include <basetsd.h>
+#else
+#include <sys/types.h>
+#endif
 
 namespace rust {
+
+#ifndef STDTY_RUST_ISIZE
+#define STDTY_RUST_ISIZE
+#if defined(_WIN32)
+using isize = SSIZE_T;
+#else
+using isize = ssize_t;
+#endif
+#endif  // CXXBRIDGE1_RUST_ISIZE
+
 #ifndef STDTYBRIDGE1_RUST_MAP
 template <typename K, typename V>
 class Map final {
@@ -41,7 +57,6 @@ class Map final {
 // Map<K, V>::Map(Map &&other) noexcept : repr(other.repr) {
 //     new (&other) Map();
 // }
-
 
 template <typename K, typename V>
 Map<K, V>::~Map() noexcept {

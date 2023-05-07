@@ -1,9 +1,14 @@
 #include "test.h"
 
-#include "iostream"
+#include <iostream>
 
 Map *get() {
-    std::map<uint8_t, uint8_t> map{{20, 10}, {200, 100}, {60, 15}, {69, 69}};
+    // std::map<uint8_t, uint8_t> map{{20, 10}, {200, 100}, {60, 15}, {69, 69}};
+    // std::unique_ptr<Map> x = std::make_unique<Map>(map);
+
+    // return x.release();
+
+    Map map{{"a", 10}, {"c", 20}, {"e", 30}};
     std::unique_ptr<Map> x = std::make_unique<Map>(map);
 
     return x.release();
