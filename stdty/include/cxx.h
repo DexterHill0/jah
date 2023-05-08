@@ -1,3 +1,4 @@
+
 #pragma once
 #include <array>
 #include <map>
@@ -9,58 +10,96 @@
 #include <sys/types.h>
 #endif
 
-namespace rust {
+namespace entries {
 
-#ifndef STDTY_RUST_ISIZE
-#define STDTY_RUST_ISIZE
+    struct __Ku8Vu8MapEntry {
+        std::uint8_t key;
+        std::uint8_t value;
+    };    
+    
+    struct __Ku8Vu16MapEntry {
+        std::uint8_t key;
+        std::uint16_t value;
+    };    
+    
+    struct __Ku8Vu32MapEntry {
+        std::uint8_t key;
+        std::uint32_t value;
+    };    
+    
+    struct __Ku16Vu8MapEntry {
+        std::uint16_t key;
+        std::uint8_t value;
+    };    
+    
+    struct __Ku16Vu16MapEntry {
+        std::uint16_t key;
+        std::uint16_t value;
+    };    
+    
+    struct __Ku16Vu32MapEntry {
+        std::uint16_t key;
+        std::uint32_t value;
+    };    
+    
+    struct __Ku32Vu8MapEntry {
+        std::uint32_t key;
+        std::uint8_t value;
+    };    
+    
+    struct __Ku32Vu16MapEntry {
+        std::uint32_t key;
+        std::uint16_t value;
+    };    
+    
+    struct __Ku32Vu32MapEntry {
+        std::uint32_t key;
+        std::uint32_t value;
+    };    
+    
+}
+
+namespace rust {
+inline namespace stdtybridge {
+#ifndef STDTYBRIDGE_RUST_ISIZE
+#define STDTYBRIDGE_RUST_ISIZE
 #if defined(_WIN32)
 using isize = SSIZE_T;
 #else
 using isize = ssize_t;
 #endif
-#endif  // CXXBRIDGE1_RUST_ISIZE
+#endif  // STDTYBRIDGE_RUST_ISIZE
 
-#ifndef STDTYBRIDGE1_RUST_MAP
-template <typename K, typename V>
+#ifndef STDTYBRIDGE_RUST_MAP
+template <typename K, typename V, typename Entry>
 class Map final {
-   public:
-    using key_type = K;
-    using value_type = V;
+public:
+using key_type = K;
+using value_type = V;
+using entry_type = Entry;
 
-    ~Map() noexcept;
+Entry pop_first() noexcept;
+std::size_t size() const noexcept;
 
-    std::size_t size() const noexcept;
+~Map() noexcept;
 
-   private:
-    void drop() noexcept;
+private:
+void drop() noexcept;
 
-    // for size and alignment (verified in rust_map.rs)
-    std::array<std::uintptr_t, 3> repr;
+// for size and alignment (verified in rust_map.rs)
+std::array<std::uintptr_t, 3> repr;
 };
-#endif  // STDTYBRIDGE1_RUST_MAP
+#endif
 
-#ifndef STDTYBRIDGE1_RUST_MAP
-#define STDTYBRIDGE1_RUST_MAP
-// template <typename K, typename V>
-// Map<K, V>::Map(std::map<K, V> init) : Map{} {
-//     this->reserve_total(init.size());
-//     std::move(init.begin(), init.end(), std::back_inserter(*this));
-// }
+#ifndef STDTYBRIDGE_RUST_MAP
+#define STDTYBRIDGE_RUST_MAP
 
-// template <typename K, typename V>
-// Map<K, V>::Map(const Map &other) : Map() {
-//     this->reserve_total(other.size());
-//     std::copy(other.begin(), other.end(), std::back_inserter(*this));
-// }
-
-// template <typename K, typename V>
-// Map<K, V>::Map(Map &&other) noexcept : repr(other.repr) {
-//     new (&other) Map();
-// }
-
-template <typename K, typename V>
-Map<K, V>::~Map() noexcept {
-    this->drop();
+template <typename K, typename V, typename Entry>
+Map<K, V, Entry>::~Map() noexcept {
+this->drop();
 }
+
 #endif  // STDTYBRIDGE1_RUST_MAP
+}  // namespace stdtybridge
 }  // namespace rust
+    

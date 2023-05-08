@@ -2,19 +2,33 @@
 
 #include <iostream>
 
-Map *get() {
-    // std::map<uint8_t, uint8_t> map{{20, 10}, {200, 100}, {60, 15}, {69, 69}};
-    // std::unique_ptr<Map> x = std::make_unique<Map>(map);
+// Map *get() {
+//     // std::map<uint8_t, uint8_t> map{{20, 10}, {200, 100}, {60, 15}, {69, 69}};
+//     // std::unique_ptr<Map> x = std::make_unique<Map>(map);
 
-    // return x.release();
+//     // return x.release();
 
-    Map map{{"a", 10}, {"c", 20}, {"e", 30}};
-    std::unique_ptr<Map> x = std::make_unique<Map>(map);
+//     Map map{{"a", 10}, {"c", 20}, {"e", 30}};
+//     std::unique_ptr<Map> x = std::make_unique<Map>(map);
 
-    return x.release();
-}
+//     return x.release();
+// }
 
-// void pass(Map2& map) {
+// Map pass_intermediary(RustMap& map) {
+//     auto new_map = Map{};
+
+//     for (std::size_t i = 0; i < map.size(); i++) {
+//         auto pair = map.pop_first();
+
+//         new_map.insert(std::make_pair(pair.key, pair.value));
+//     }
+
+//     return new_map;
+// }
+
+// void pass(RustMap& mmap) {
+//     auto map = pass_intermediary(mmap);
+
 //     std::cout << map.size() << std::endl;
 // }
 

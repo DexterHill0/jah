@@ -60,9 +60,9 @@ where
         map
     }
 
-    pub fn to_rust_map(&'m self) -> crate::RustMap<K, V> {
-        crate::RustMap::from(self.to_btreemap())
-    }
+    // pub fn to_rust_map(&'m self) -> crate::RustMap<K, V> {
+    //     crate::RustMap::from(self.to_btreemap())
+    // }
 }
 
 pub struct Keys<'a, K, V>
@@ -177,7 +177,7 @@ macro_rules! impl_map_element {
 
             fn next(&mut self) -> Option<Self::Item> {
                 let next_key = unsafe { self.map.key_by_index(self.index) };
-                let next_value = unsafe { self.map.value_by_index(self.index) };
+                let next_value = unsafe { self.map.get_unchecked(next_key) };
                 self.index += 1;
                 if self.index > self.map.len() {
                     return None;

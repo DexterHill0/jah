@@ -2,6 +2,10 @@ use std::env;
 use std::path::Path;
 
 fn main() {
+    if cfg!(_gen_cxx) {
+        panic!();
+    }
+
     #[rustfmt::skip]
     cc::Build::new()
         .file("src/cxx.cc")
