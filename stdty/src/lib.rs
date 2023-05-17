@@ -11,40 +11,33 @@ pub type Map<K, V> = UniquePtr<CxxMap<K, V>>;
 pub type Vector<T> = UniquePtr<CxxVector<T>>;
 pub type String = UniquePtr<CxxString>;
 
-#[test]
-fn generate() {}
+// empty bridge not sure if it's necessary
+#[cxx::bridge]
+mod ffi {}
 
 // fuck c++ macros all my homies hate c++ macros
 #[test]
-#[rustfmt::skip]
 fn generate_cxx() {
-    const TYPES: &[(&str, &str)] = &[
-        ("std::uint8_t", "u8"),
-        ("std::uint16_t", "u16"),
-        ("std::uint32_t", "u32"),
-        // ("std::uint64_t", "u64"),
-        // ("std::int8_t", "i8"),
-        // ("std::int16_t", "i16"),
-        // ("std::int32_t", "i32"),
-        // ("std::int64_t", "i64"),
-        // ("std::size_t", "usize"),
-        // ("rust::isize", "isize"),
-        // ("bool", "bool"),
-        // ("std::string", "string"),
+    const CXX_TO_RUST_TYPES: &[(&str, &str)] = &[
+        ("std::int16_t", "i16"),
+        ("bool", "bool"),
+        ("std::string", "string"),
+    ];
+
+    const RUST_TO_CXX_TYPES: &[(&str, &str)] = &[
+        ("std::int16_t", "i16"),
+        ("bool", "bool"),
+        ("rust::string", "string"),
     ];
 
     let mut extern_c = std::string::String::new();
     let mut rust_namespace = std::string::String::new();
     let mut entries = std::string::String::new();
 
-    for (key_cpp, key_rust) in TYPES {
-        for (value_cpp, value_rust) in TYPES {
-            let k_rust_up = key_rust.to_uppercase();
-            let v_rust_up = value_rust.to_uppercase();
+    for (key_cpp, key_rust) in CXX_TO_RUST_TYPES {
+        for (value_cpp, value_rust) in CXX_TO_RUST_TYPES {
             extern_c += &format!(
                 r#"
-#if __STDTY_MAP_{k_rust_up} && __STDTY_MAP_{v_rust_up}
-
 void stdtybridge$std$map$k${key_rust}$v${value_rust}$insert(
     std::map<{key_cpp}, {value_cpp}> *m, {key_cpp} *key, {value_cpp} *value) noexcept {{
     m->insert({{std::move(*key), std::move(*value)}});
@@ -112,20 +105,24 @@ std::map<{key_cpp}, {value_cpp}> *stdtybridge$unique_ptr$std$map$k${key_rust}$v$
 void stdtybridge$unique_ptr$std$map$k${key_rust}$v${value_rust}$drop(std::unique_ptr<std::map<{key_cpp}, {value_cpp}>> *ptr) noexcept {{
     ptr->~unique_ptr();
 }}
+"#
+            );
+        }
+    }
 
-
-// rust::map shims
+    for (key_cpp, key_rust) in RUST_TO_CXX_TYPES {
+        for (value_cpp, value_rust) in RUST_TO_CXX_TYPES {
+            extern_c += &format!(
+                r#"
 void stdtybridge$rust_map$k${key_rust}$v${value_rust}$drop(rust::Map<{key_cpp}, {value_cpp}, entries::__K{key_rust}V{value_rust}MapEntry> *ptr) noexcept;
 
 entries::__K{key_rust}V{value_rust}MapEntry stdtybridge$rust_map$k${key_rust}$v${value_rust}$pop_first(const rust::Map<{key_cpp}, {value_cpp}, entries::__K{key_rust}V{value_rust}MapEntry> *ptr) noexcept;
 std::size_t stdtybridge$rust_map$k${key_rust}$v${value_rust}$len(const rust::Map<{key_cpp}, {value_cpp}, entries::__K{key_rust}V{value_rust}MapEntry> *ptr) noexcept;
-
-
-
-#endif"#
+            "#
             );
-            rust_namespace += &format!(r#"
-#if __STDTY_MAP_{k_rust_up} && __STDTY_MAP_{v_rust_up}
+
+            rust_namespace += &format!(
+                r#"
 
 template <>
 void Map<{key_cpp}, {value_cpp}, entries::__K{key_rust}V{value_rust}MapEntry>::drop() noexcept {{
@@ -141,14 +138,16 @@ template <>
 std::size_t Map<{key_cpp}, {value_cpp}, entries::__K{key_rust}V{value_rust}MapEntry>::size() const noexcept {{
     return stdtybridge$rust_map$k${key_rust}$v${value_rust}$len(this);
 }}
-#endif
-"#);
-        entries += &format!(r#"
-    struct __K{key_rust}V{value_rust}MapEntry {{
-        {key_cpp} key;
-        {value_cpp} value;
-    }};    
-    "#);
+"#
+            );
+            entries += &format!(
+                r#"
+struct __K{key_rust}V{value_rust}MapEntry {{
+    {key_cpp} key;
+    {value_cpp} value;
+}};    
+            "#
+            );
         }
     }
 
@@ -188,11 +187,8 @@ inline namespace stdtybridge {{
 #include <map>
 #include <memory>
 #include <string>
-#if defined(_WIN32)
-#include <basetsd.h>
-#else
-#include <sys/types.h>
-#endif
+
+#include "rust/cxx.h"
 
 namespace entries {{
 {entries}
@@ -200,33 +196,24 @@ namespace entries {{
 
 namespace rust {{
 inline namespace stdtybridge {{
-#ifndef STDTYBRIDGE_RUST_ISIZE
-#define STDTYBRIDGE_RUST_ISIZE
-#if defined(_WIN32)
-using isize = SSIZE_T;
-#else
-using isize = ssize_t;
-#endif
-#endif  // STDTYBRIDGE_RUST_ISIZE
-
 #ifndef STDTYBRIDGE_RUST_MAP
 template <typename K, typename V, typename Entry>
 class Map final {{
 public:
-using key_type = K;
-using value_type = V;
-using entry_type = Entry;
+    using key_type = K;
+    using value_type = V;
+    using entry_type = Entry;
 
-Entry pop_first() noexcept;
-std::size_t size() const noexcept;
+    Entry pop_first() noexcept;
+    std::size_t size() const noexcept;
 
-~Map() noexcept;
+    ~Map() noexcept;
 
-private:
-void drop() noexcept;
+    private:
+    void drop() noexcept;
 
-// for size and alignment (verified in rust_map.rs)
-std::array<std::uintptr_t, 3> repr;
+    // for size and alignment (verified in rust_map.rs)
+    std::array<std::uintptr_t, 3> repr;
 }};
 #endif
 
@@ -238,7 +225,7 @@ Map<K, V, Entry>::~Map() noexcept {{
 this->drop();
 }}
 
-#endif  // STDTYBRIDGE1_RUST_MAP
+#endif  // STDTYBRIDGE_RUST_MAP
 }}  // namespace stdtybridge
 }}  // namespace rust
     "#
@@ -258,24 +245,25 @@ macro_rules! s {
     };
 }
 
-// fn get<'a>() -> UniquePtr<CxxMap<CxxString, CxxString>> {
+// fn get<'a>() -> UniquePtr<CxxMap<i16, i16>> {
 //     extern "C" {
 //         #[link_name = "?get@@YAPEAV?$map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_JU?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_J@std@@@2@@std@@XZ"]
-//         fn get<'a>() -> *mut CxxMap<CxxString, CxxString>;
+//         fn get<'a>() -> *mut CxxMap<i16, i16>;
 
 //     }
 //     unsafe { UniquePtr::from_raw(get()) }
 // }
 
 // extern "C" {
-//     #[link_name = "?pass@@YAXAEAV?$Map@EEUentries::__Ku8Vu8MapEntry@entries@@@stdtybridge@rust@@@Z"]
-//     fn pass<'a>(map: &BTreeMap<u8, u8>);
+//     #[link_name = "?pass@@YAXAEAV?$Map@VString@cxxbridge1@rust@@EU__KstringVboolMapEntry@entries@@@stdtybridge@rust@@@Z"]
+//     fn pass<'a>(map: &BTreeMap<std::string::String, bool>);
 // }
 
-// #[test]
-// fn test() {
-//     let mut a: BTreeMap<u8, u8> = BTreeMap::new();
-//     a.insert(10, 20);
+#[test]
+fn test() {
+    // let mut map: BTreeMap<std::string::String, bool> = BTreeMap::new();
+    // map.insert("aaa".into(), false);
+    // map.insert("bbb".into(), true);
 
-//     unsafe { pass(&a) };
-// }
+    // unsafe { pass(&map) };
+}

@@ -2,7 +2,6 @@ use core::ffi::c_void;
 use core::marker::PhantomData;
 use core::mem::{self, MaybeUninit};
 use core::ptr;
-use std::collections::btree_map::Iter;
 use std::collections::BTreeMap;
 
 #[repr(C, packed)]
@@ -15,8 +14,6 @@ struct Entry<K, V> {
 struct RustMap<K, V> {
     repr:
         [MaybeUninit<usize>; mem::size_of::<BTreeMap<c_void, c_void>>() / mem::size_of::<usize>()],
-    // raw_iter: Option<*mut Iter<K, V>>,
-    // repr: [u32; 1],
     marker: PhantomData<BTreeMap<K, V>>,
 }
 
@@ -54,19 +51,12 @@ impl<K, V> Drop for RustMap<K, V> {
 }
 
 macro_rules! map_shim {
-    ($kattr:meta, $vattr:meta, $kel:ident, $ksegment:expr, $vel:ident, $vsegment:expr) => {
-        #[$kattr]
-        #[$vattr]
+    ($kel:ident, $ksegment:expr, $vel:ident, $vsegment:expr) => {
         cxx::const_assert_eq!(mem::size_of::<[usize; 3]>(), mem::size_of::<RustMap<$kel, $vel>>());
-        #[$kattr]
-        #[$vattr]
         cxx::const_assert_eq!(mem::size_of::<BTreeMap<$kel, $vel>>(), mem::size_of::<RustMap<$kel, $vel>>());
-        #[$kattr]
-        #[$vattr]
         cxx::const_assert_eq!(mem::align_of::<BTreeMap<$kel, $vel>>(), mem::align_of::<RustMap<$kel, $vel>>());
 
-        #[$kattr]
-        #[$vattr]
+        #[allow(improper_ctypes_definitions)]
         const _: () = {
             cxx::attr! {
                 #[export_name = concat!("stdtybridge$rust_map", "$k$", $ksegment, "$v$", $vsegment, "$drop")]
@@ -93,55 +83,32 @@ macro_rules! map_shim {
 macro_rules! map_shim_combinations {
     (
         $(
-            #[$attrs:meta]
             $tys:ident
         ),*
     ) => {
-        map_shim_combinations!(@gen $($attrs),* ~ $($attrs)* ~ $($tys),* # $($tys)*);
+        map_shim_combinations!(@gen $($tys),* # $($tys)*);
     };
 
-    (@gen $curr_attr:meta, $($rest_attrs:meta),* ~ $($all_attrs:meta)* ~ $curr:ident, $($rest:ident),* # $($all:ident)*) => {
+    (@gen $curr:ident, $($rest:ident),* # $($all:ident)*) => {
         $(
-            map_shim!($curr_attr, $all_attrs, $curr, stringify!($curr), $all, stringify!($all));
+            map_shim!($curr, stringify!($curr), $all, stringify!($all));
         )*
 
-        map_shim_combinations!(@gen $($rest_attrs),* ~ $($all_attrs)* ~ $($rest),* # $($all)*);
+        map_shim_combinations!(@gen $($rest),* # $($all)*);
     };
 
-    (@gen $final_attr:meta ~ $($all_attrs:meta)* ~ $final:ident # $($all:ident)*) => {
+    (@gen $final:ident # $($all:ident)*) => {
         $(
-            map_shim!($final_attr, $all_attrs, $final, stringify!($final), $all, stringify!($all));
+            map_shim!($final, stringify!($final), $all, stringify!($all));
         )*
     }
 }
 
+#[allow(non_camel_case_types)]
+type string = String;
+
 map_shim_combinations! {
-    // #[cfg(feature = "map_bool")]
-    // bool,
-    #[cfg(feature = "map_u8")]
-    u8,
-    #[cfg(feature = "map_u16")]
-    u16,
-    #[cfg(feature = "map_u32")]
-    u32
-    // #[cfg(feature = "map_u64")]
-    // u64,
-    // #[cfg(feature = "map_i8")]
-    // i8,
-    // #[cfg(feature = "map_i16")]
-    // i16,
-    // #[cfg(feature = "map_i32")]
-    // i32,
-    // #[cfg(feature = "map_i64")]
-    // i64,
-    // #[cfg(feature = "map_usize")]
-    // usize,
-    // #[cfg(feature = "map_isize")]
-    // isize,
-    // #[cfg(feature = "map_string")]
-    // string,
-    // #[cfg(feature = "map_f32")]
-    // f32,
-    // #[cfg(feature = "map_f64")]
-    // f64
+    bool,
+    i16,
+    string
 }

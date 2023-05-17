@@ -59,10 +59,6 @@ where
         }
         map
     }
-
-    // pub fn to_rust_map(&'m self) -> crate::RustMap<K, V> {
-    //     crate::RustMap::from(self.to_btreemap())
-    // }
 }
 
 pub struct Keys<'a, K, V>
@@ -99,16 +95,10 @@ where
 pub unsafe trait MapElement: Sized {}
 
 macro_rules! impl_map_element {
-    ($kattr:meta, $vattr:meta, $kel:ident, $ksegment:expr, $vel:ident, $vsegment:expr) => {
-        #[$kattr]
-        #[$vattr]
+    ($kel:ident, $ksegment:expr, $vel:ident, $vsegment:expr) => {
         cxx::const_assert_eq!(0, std::mem::size_of::<CxxMap<$kel, $vel>>());
-        #[$kattr]
-        #[$vattr]
         cxx::const_assert_eq!(1, std::mem::align_of::<CxxMap<$kel, $vel>>());
 
-        #[$kattr]
-        #[$vattr]
         impl<'m> Iterator for Keys<'m, $kel, $vel>
         {
             type Item = &'m $kel;
@@ -128,8 +118,6 @@ macro_rules! impl_map_element {
             }
         }
 
-        #[$kattr]
-        #[$vattr]
         impl<'m> ExactSizeIterator for Keys<'m, $kel, $vel>
         {
             fn len(&self) -> usize {
@@ -138,8 +126,6 @@ macro_rules! impl_map_element {
         }
 
         ///
-        #[$kattr]
-        #[$vattr]
         impl<'m> Iterator for Values<'m, $kel, $vel>
         {
             type Item = &'m $vel;
@@ -159,8 +145,6 @@ macro_rules! impl_map_element {
             }
         }
 
-        #[$kattr]
-        #[$vattr]
         impl<'m> ExactSizeIterator for Values<'m, $kel, $vel>
         {
             fn len(&self) -> usize {
@@ -169,8 +153,6 @@ macro_rules! impl_map_element {
         }
 
         ///
-        #[$kattr]
-        #[$vattr]
         impl<'m> Iterator for Entries<'m, $kel, $vel>
         {
             type Item = (&'m $kel, &'m $vel);
@@ -191,8 +173,6 @@ macro_rules! impl_map_element {
             }
         }
 
-        #[$kattr]
-        #[$vattr]
         impl<'m> ExactSizeIterator for Entries<'m, $kel, $vel>
         {
             fn len(&self) -> usize {
@@ -200,8 +180,6 @@ macro_rules! impl_map_element {
             }
         }
 
-        #[$kattr]
-        #[$vattr]
         impl CxxMap<$kel, $vel>
         {
             pub(crate) unsafe fn value_by_index(&self, index: usize) -> &$vel {
@@ -307,8 +285,6 @@ macro_rules! impl_map_element {
             }
         }
 
-        #[$kattr]
-        #[$vattr]
         unsafe impl cxx::memory::UniquePtrTarget for CxxMap<$kel, $vel> {
             fn __typename(f: &mut fmt::Formatter) -> fmt::Result {
                 f.write_str(&format!("CxxMap<{}, {}>", $ksegment, $vsegment))
@@ -374,29 +350,27 @@ macro_rules! impl_map_element {
 macro_rules! impl_map_combinations_for_primitive {
     (
         $(
-            #[$attrs:meta]
             $tys:ident
         ),*
     ) => {
         $(
-            #[$attrs]
             unsafe impl MapElement for $tys {}
         )*
 
-        impl_map_combinations_for_primitive!(@gen $($attrs),* ~ $($attrs)* ~ $($tys),* # $($tys)*);
+        impl_map_combinations_for_primitive!(@gen $($tys),* # $($tys)*);
     };
 
-    (@gen $curr_attr:meta, $($rest_attrs:meta),* ~ $($all_attrs:meta)* ~ $curr:ident, $($rest:ident),* # $($all:ident)*) => {
+    (@gen $curr:ident, $($rest:ident),* # $($all:ident)*) => {
         $(
-            impl_map_element!($curr_attr, $all_attrs, $curr, stringify!($curr), $all, stringify!($all));
+            impl_map_element!($curr, stringify!($curr), $all, stringify!($all));
         )*
 
-        impl_map_combinations_for_primitive!(@gen $($rest_attrs),* ~ $($all_attrs)* ~ $($rest),* # $($all)*);
+        impl_map_combinations_for_primitive!(@gen $($rest),* # $($all)*);
     };
 
-    (@gen $final_attr:meta ~ $($all_attrs:meta)* ~ $final:ident # $($all:ident)*) => {
+    (@gen $final:ident # $($all:ident)*) => {
         $(
-            impl_map_element!($final_attr, $all_attrs, $final, stringify!($final), $all, stringify!($all));
+            impl_map_element!($final, stringify!($final), $all, stringify!($all));
         )*
     }
 }
@@ -405,32 +379,7 @@ macro_rules! impl_map_combinations_for_primitive {
 type string = cxx::CxxString;
 
 impl_map_combinations_for_primitive! {
-    #[cfg(feature = "map_bool")]
     bool,
-    #[cfg(feature = "map_u8")]
-    u8,
-    #[cfg(feature = "map_u16")]
-    u16,
-    #[cfg(feature = "map_u32")]
-    u32,
-    #[cfg(feature = "map_u64")]
-    u64,
-    #[cfg(feature = "map_i8")]
-    i8,
-    #[cfg(feature = "map_i16")]
     i16,
-    #[cfg(feature = "map_i32")]
-    i32,
-    #[cfg(feature = "map_i64")]
-    i64,
-    #[cfg(feature = "map_usize")]
-    usize,
-    #[cfg(feature = "map_isize")]
-    isize,
-    #[cfg(feature = "map_string")]
-    string,
-    #[cfg(feature = "map_f32")]
-    f32,
-    #[cfg(feature = "map_f64")]
-    f64
+    string
 }

@@ -11,26 +11,3 @@ hashbrown = "0.13.2"
 cxx-build = "1.0"
 cxxbridge-flags = "1.0"
 cc = "1.0"
-
-# this is bunky but as the macro has to generate every combination of all types its
-# many tens of thousands of lines so
-# only generate for what the user needs
-[features]
-#default = ["map_string", "map_bool", "map_i16"] # default used in bro file
-default = ["map_u8", "map_u16", "map_u32"]
-map_u8 = []
-map_u16 = []
-map_u32 = []
-map_u64 = []
-map_i8 = []
-map_i16 = []
-map_i32 = []
-map_i64 = []
-map_f32 = []
-map_f64 = []
-map_usize = []
-map_isize = []
-map_string = []
-map_bool = []
-
-_gen_cxx = []

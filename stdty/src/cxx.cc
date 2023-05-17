@@ -4,898 +4,814 @@
 template <typename T>
 void destroy(T *ptr) {
     ptr->~T();
-}  
+}
 
 extern "C" {
-    
-#if __STDTY_MAP_U8 && __STDTY_MAP_U8
 
-void stdtybridge$std$map$k$u8$v$u8$insert(
-    std::map<std::uint8_t, std::uint8_t> *m, std::uint8_t *key, std::uint8_t *value) noexcept {
+void stdtybridge$std$map$k$i16$v$i16$insert(
+    std::map<std::int16_t, std::int16_t> *m, std::int16_t *key, std::int16_t *value) noexcept {
     m->insert({std::move(*key), std::move(*value)});
     destroy(key);
     destroy(value);
 }
 
-std::uint8_t &stdtybridge$std$map$k$u8$v$u8$get_unchecked(
-    std::map<std::uint8_t, std::uint8_t> *m, std::uint8_t *key) noexcept {
-        return m->at(*key);
-    }
-    
-std::uint8_t &stdtybridge$std$map$k$u8$v$u8$get_unchecked_mut(
-    std::map<std::uint8_t, std::uint8_t> *m, std::uint8_t *key) noexcept {
+std::int16_t &stdtybridge$std$map$k$i16$v$i16$get_unchecked(
+    std::map<std::int16_t, std::int16_t> *m, std::int16_t *key) noexcept {
     return m->at(*key);
 }
-    
-bool stdtybridge$std$map$k$u8$v$u8$contains_key(
-    std::map<std::uint8_t, std::uint8_t> *m, std::uint8_t *key) noexcept {
-        return m->count(*key) > 0;
+
+std::int16_t &stdtybridge$std$map$k$i16$v$i16$get_unchecked_mut(
+    std::map<std::int16_t, std::int16_t> *m, std::int16_t *key) noexcept {
+    return m->at(*key);
 }
-        
-const std::uint8_t &stdtybridge$std$map$k$u8$v$u8$key_by_index(
-    std::map<std::uint8_t, std::uint8_t> *m, std::size_t index) noexcept {
+
+bool stdtybridge$std$map$k$i16$v$i16$contains_key(
+    std::map<std::int16_t, std::int16_t> *m, std::int16_t *key) noexcept {
+    return m->count(*key) > 0;
+}
+
+const std::int16_t &stdtybridge$std$map$k$i16$v$i16$key_by_index(
+    std::map<std::int16_t, std::int16_t> *m, std::size_t index) noexcept {
     auto it = m->begin();
     std::advance(it, index);
     return it->first;
 }
-            
-const std::uint8_t &stdtybridge$std$map$k$u8$v$u8$value_by_index(
-    std::map<std::uint8_t, std::uint8_t> *m, std::size_t index) noexcept {
+
+const std::int16_t &stdtybridge$std$map$k$i16$v$i16$value_by_index(
+    std::map<std::int16_t, std::int16_t> *m, std::size_t index) noexcept {
     auto it = m->begin();
     std::advance(it, index);
     return it->second;
 }
-                
-std::size_t stdtybridge$std$map$k$u8$v$u8$len(
-    std::map<std::uint8_t, std::uint8_t> *m) noexcept {
+
+std::size_t stdtybridge$std$map$k$i16$v$i16$len(
+    std::map<std::int16_t, std::int16_t> *m) noexcept {
     return m->size();
 }
 
-void stdtybridge$std$map$k$u8$v$u8$clear(
-    std::map<std::uint8_t, std::uint8_t> *m) noexcept {
+void stdtybridge$std$map$k$i16$v$i16$clear(
+    std::map<std::int16_t, std::int16_t> *m) noexcept {
     m->clear();
 }
-    
+
 // std::unique_ptr<std::map<..>>
-void stdtybridge$unique_ptr$std$map$k$u8$v$u8$null(std::unique_ptr<std::map<std::uint8_t, std::uint8_t>> *ptr) noexcept {
-    new (ptr) std::unique_ptr<std::map<std::uint8_t, std::uint8_t>>();
+void stdtybridge$unique_ptr$std$map$k$i16$v$i16$null(std::unique_ptr<std::map<std::int16_t, std::int16_t>> *ptr) noexcept {
+    new (ptr) std::unique_ptr<std::map<std::int16_t, std::int16_t>>();
 }
 
-void stdtybridge$unique_ptr$std$map$k$u8$v$u8$raw(std::unique_ptr<std::map<std::uint8_t, std::uint8_t>> *ptr,
-    std::map<std::uint8_t, std::uint8_t> *raw) noexcept {
-    new (ptr) std::unique_ptr<std::map<std::uint8_t, std::uint8_t>>(raw);
+void stdtybridge$unique_ptr$std$map$k$i16$v$i16$raw(std::unique_ptr<std::map<std::int16_t, std::int16_t>> *ptr,
+                                                    std::map<std::int16_t, std::int16_t> *raw) noexcept {
+    new (ptr) std::unique_ptr<std::map<std::int16_t, std::int16_t>>(raw);
 }
 
-const std::map<std::uint8_t, std::uint8_t> *stdtybridge$unique_ptr$std$map$k$u8$v$u8$get(const std::unique_ptr<std::map<std::uint8_t, std::uint8_t>> &ptr) noexcept {
+const std::map<std::int16_t, std::int16_t> *stdtybridge$unique_ptr$std$map$k$i16$v$i16$get(const std::unique_ptr<std::map<std::int16_t, std::int16_t>> &ptr) noexcept {
     return ptr.get();
 }
 
-std::map<std::uint8_t, std::uint8_t> *stdtybridge$unique_ptr$std$map$k$u8$v$u8$release(std::unique_ptr<std::map<std::uint8_t, std::uint8_t>> &ptr) noexcept {
+std::map<std::int16_t, std::int16_t> *stdtybridge$unique_ptr$std$map$k$i16$v$i16$release(std::unique_ptr<std::map<std::int16_t, std::int16_t>> &ptr) noexcept {
     return ptr.release();
 }
 
-void stdtybridge$unique_ptr$std$map$k$u8$v$u8$drop(std::unique_ptr<std::map<std::uint8_t, std::uint8_t>> *ptr) noexcept {
+void stdtybridge$unique_ptr$std$map$k$i16$v$i16$drop(std::unique_ptr<std::map<std::int16_t, std::int16_t>> *ptr) noexcept {
     ptr->~unique_ptr();
 }
 
-
-// rust::map shims
-void stdtybridge$rust_map$k$u8$v$u8$drop(rust::Map<std::uint8_t, std::uint8_t, entries::__Ku8Vu8MapEntry> *ptr) noexcept;
-
-entries::__Ku8Vu8MapEntry stdtybridge$rust_map$k$u8$v$u8$pop_first(const rust::Map<std::uint8_t, std::uint8_t, entries::__Ku8Vu8MapEntry> *ptr) noexcept;
-std::size_t stdtybridge$rust_map$k$u8$v$u8$len(const rust::Map<std::uint8_t, std::uint8_t, entries::__Ku8Vu8MapEntry> *ptr) noexcept;
-
-
-
-#endif
-#if __STDTY_MAP_U8 && __STDTY_MAP_U16
-
-void stdtybridge$std$map$k$u8$v$u16$insert(
-    std::map<std::uint8_t, std::uint16_t> *m, std::uint8_t *key, std::uint16_t *value) noexcept {
+void stdtybridge$std$map$k$i16$v$bool$insert(
+    std::map<std::int16_t, bool> *m, std::int16_t *key, bool *value) noexcept {
     m->insert({std::move(*key), std::move(*value)});
     destroy(key);
     destroy(value);
 }
 
-std::uint16_t &stdtybridge$std$map$k$u8$v$u16$get_unchecked(
-    std::map<std::uint8_t, std::uint16_t> *m, std::uint8_t *key) noexcept {
-        return m->at(*key);
-    }
-    
-std::uint16_t &stdtybridge$std$map$k$u8$v$u16$get_unchecked_mut(
-    std::map<std::uint8_t, std::uint16_t> *m, std::uint8_t *key) noexcept {
+bool &stdtybridge$std$map$k$i16$v$bool$get_unchecked(
+    std::map<std::int16_t, bool> *m, std::int16_t *key) noexcept {
     return m->at(*key);
 }
-    
-bool stdtybridge$std$map$k$u8$v$u16$contains_key(
-    std::map<std::uint8_t, std::uint16_t> *m, std::uint8_t *key) noexcept {
-        return m->count(*key) > 0;
+
+bool &stdtybridge$std$map$k$i16$v$bool$get_unchecked_mut(
+    std::map<std::int16_t, bool> *m, std::int16_t *key) noexcept {
+    return m->at(*key);
 }
-        
-const std::uint8_t &stdtybridge$std$map$k$u8$v$u16$key_by_index(
-    std::map<std::uint8_t, std::uint16_t> *m, std::size_t index) noexcept {
+
+bool stdtybridge$std$map$k$i16$v$bool$contains_key(
+    std::map<std::int16_t, bool> *m, std::int16_t *key) noexcept {
+    return m->count(*key) > 0;
+}
+
+const std::int16_t &stdtybridge$std$map$k$i16$v$bool$key_by_index(
+    std::map<std::int16_t, bool> *m, std::size_t index) noexcept {
     auto it = m->begin();
     std::advance(it, index);
     return it->first;
 }
-            
-const std::uint16_t &stdtybridge$std$map$k$u8$v$u16$value_by_index(
-    std::map<std::uint8_t, std::uint16_t> *m, std::size_t index) noexcept {
+
+const bool &stdtybridge$std$map$k$i16$v$bool$value_by_index(
+    std::map<std::int16_t, bool> *m, std::size_t index) noexcept {
     auto it = m->begin();
     std::advance(it, index);
     return it->second;
 }
-                
-std::size_t stdtybridge$std$map$k$u8$v$u16$len(
-    std::map<std::uint8_t, std::uint16_t> *m) noexcept {
+
+std::size_t stdtybridge$std$map$k$i16$v$bool$len(
+    std::map<std::int16_t, bool> *m) noexcept {
     return m->size();
 }
 
-void stdtybridge$std$map$k$u8$v$u16$clear(
-    std::map<std::uint8_t, std::uint16_t> *m) noexcept {
+void stdtybridge$std$map$k$i16$v$bool$clear(
+    std::map<std::int16_t, bool> *m) noexcept {
     m->clear();
 }
-    
+
 // std::unique_ptr<std::map<..>>
-void stdtybridge$unique_ptr$std$map$k$u8$v$u16$null(std::unique_ptr<std::map<std::uint8_t, std::uint16_t>> *ptr) noexcept {
-    new (ptr) std::unique_ptr<std::map<std::uint8_t, std::uint16_t>>();
+void stdtybridge$unique_ptr$std$map$k$i16$v$bool$null(std::unique_ptr<std::map<std::int16_t, bool>> *ptr) noexcept {
+    new (ptr) std::unique_ptr<std::map<std::int16_t, bool>>();
 }
 
-void stdtybridge$unique_ptr$std$map$k$u8$v$u16$raw(std::unique_ptr<std::map<std::uint8_t, std::uint16_t>> *ptr,
-    std::map<std::uint8_t, std::uint16_t> *raw) noexcept {
-    new (ptr) std::unique_ptr<std::map<std::uint8_t, std::uint16_t>>(raw);
+void stdtybridge$unique_ptr$std$map$k$i16$v$bool$raw(std::unique_ptr<std::map<std::int16_t, bool>> *ptr,
+                                                     std::map<std::int16_t, bool> *raw) noexcept {
+    new (ptr) std::unique_ptr<std::map<std::int16_t, bool>>(raw);
 }
 
-const std::map<std::uint8_t, std::uint16_t> *stdtybridge$unique_ptr$std$map$k$u8$v$u16$get(const std::unique_ptr<std::map<std::uint8_t, std::uint16_t>> &ptr) noexcept {
+const std::map<std::int16_t, bool> *stdtybridge$unique_ptr$std$map$k$i16$v$bool$get(const std::unique_ptr<std::map<std::int16_t, bool>> &ptr) noexcept {
     return ptr.get();
 }
 
-std::map<std::uint8_t, std::uint16_t> *stdtybridge$unique_ptr$std$map$k$u8$v$u16$release(std::unique_ptr<std::map<std::uint8_t, std::uint16_t>> &ptr) noexcept {
+std::map<std::int16_t, bool> *stdtybridge$unique_ptr$std$map$k$i16$v$bool$release(std::unique_ptr<std::map<std::int16_t, bool>> &ptr) noexcept {
     return ptr.release();
 }
 
-void stdtybridge$unique_ptr$std$map$k$u8$v$u16$drop(std::unique_ptr<std::map<std::uint8_t, std::uint16_t>> *ptr) noexcept {
+void stdtybridge$unique_ptr$std$map$k$i16$v$bool$drop(std::unique_ptr<std::map<std::int16_t, bool>> *ptr) noexcept {
     ptr->~unique_ptr();
 }
 
-
-// rust::map shims
-void stdtybridge$rust_map$k$u8$v$u16$drop(rust::Map<std::uint8_t, std::uint16_t, entries::__Ku8Vu16MapEntry> *ptr) noexcept;
-
-entries::__Ku8Vu16MapEntry stdtybridge$rust_map$k$u8$v$u16$pop_first(const rust::Map<std::uint8_t, std::uint16_t, entries::__Ku8Vu16MapEntry> *ptr) noexcept;
-std::size_t stdtybridge$rust_map$k$u8$v$u16$len(const rust::Map<std::uint8_t, std::uint16_t, entries::__Ku8Vu16MapEntry> *ptr) noexcept;
-
-
-
-#endif
-#if __STDTY_MAP_U8 && __STDTY_MAP_U32
-
-void stdtybridge$std$map$k$u8$v$u32$insert(
-    std::map<std::uint8_t, std::uint32_t> *m, std::uint8_t *key, std::uint32_t *value) noexcept {
+void stdtybridge$std$map$k$i16$v$string$insert(
+    std::map<std::int16_t, std::string> *m, std::int16_t *key, std::string *value) noexcept {
     m->insert({std::move(*key), std::move(*value)});
     destroy(key);
     destroy(value);
 }
 
-std::uint32_t &stdtybridge$std$map$k$u8$v$u32$get_unchecked(
-    std::map<std::uint8_t, std::uint32_t> *m, std::uint8_t *key) noexcept {
-        return m->at(*key);
-    }
-    
-std::uint32_t &stdtybridge$std$map$k$u8$v$u32$get_unchecked_mut(
-    std::map<std::uint8_t, std::uint32_t> *m, std::uint8_t *key) noexcept {
+std::string &stdtybridge$std$map$k$i16$v$string$get_unchecked(
+    std::map<std::int16_t, std::string> *m, std::int16_t *key) noexcept {
     return m->at(*key);
 }
-    
-bool stdtybridge$std$map$k$u8$v$u32$contains_key(
-    std::map<std::uint8_t, std::uint32_t> *m, std::uint8_t *key) noexcept {
-        return m->count(*key) > 0;
+
+std::string &stdtybridge$std$map$k$i16$v$string$get_unchecked_mut(
+    std::map<std::int16_t, std::string> *m, std::int16_t *key) noexcept {
+    return m->at(*key);
 }
-        
-const std::uint8_t &stdtybridge$std$map$k$u8$v$u32$key_by_index(
-    std::map<std::uint8_t, std::uint32_t> *m, std::size_t index) noexcept {
+
+bool stdtybridge$std$map$k$i16$v$string$contains_key(
+    std::map<std::int16_t, std::string> *m, std::int16_t *key) noexcept {
+    return m->count(*key) > 0;
+}
+
+const std::int16_t &stdtybridge$std$map$k$i16$v$string$key_by_index(
+    std::map<std::int16_t, std::string> *m, std::size_t index) noexcept {
     auto it = m->begin();
     std::advance(it, index);
     return it->first;
 }
-            
-const std::uint32_t &stdtybridge$std$map$k$u8$v$u32$value_by_index(
-    std::map<std::uint8_t, std::uint32_t> *m, std::size_t index) noexcept {
+
+const std::string &stdtybridge$std$map$k$i16$v$string$value_by_index(
+    std::map<std::int16_t, std::string> *m, std::size_t index) noexcept {
     auto it = m->begin();
     std::advance(it, index);
     return it->second;
 }
-                
-std::size_t stdtybridge$std$map$k$u8$v$u32$len(
-    std::map<std::uint8_t, std::uint32_t> *m) noexcept {
+
+std::size_t stdtybridge$std$map$k$i16$v$string$len(
+    std::map<std::int16_t, std::string> *m) noexcept {
     return m->size();
 }
 
-void stdtybridge$std$map$k$u8$v$u32$clear(
-    std::map<std::uint8_t, std::uint32_t> *m) noexcept {
+void stdtybridge$std$map$k$i16$v$string$clear(
+    std::map<std::int16_t, std::string> *m) noexcept {
     m->clear();
 }
-    
+
 // std::unique_ptr<std::map<..>>
-void stdtybridge$unique_ptr$std$map$k$u8$v$u32$null(std::unique_ptr<std::map<std::uint8_t, std::uint32_t>> *ptr) noexcept {
-    new (ptr) std::unique_ptr<std::map<std::uint8_t, std::uint32_t>>();
+void stdtybridge$unique_ptr$std$map$k$i16$v$string$null(std::unique_ptr<std::map<std::int16_t, std::string>> *ptr) noexcept {
+    new (ptr) std::unique_ptr<std::map<std::int16_t, std::string>>();
 }
 
-void stdtybridge$unique_ptr$std$map$k$u8$v$u32$raw(std::unique_ptr<std::map<std::uint8_t, std::uint32_t>> *ptr,
-    std::map<std::uint8_t, std::uint32_t> *raw) noexcept {
-    new (ptr) std::unique_ptr<std::map<std::uint8_t, std::uint32_t>>(raw);
+void stdtybridge$unique_ptr$std$map$k$i16$v$string$raw(std::unique_ptr<std::map<std::int16_t, std::string>> *ptr,
+                                                       std::map<std::int16_t, std::string> *raw) noexcept {
+    new (ptr) std::unique_ptr<std::map<std::int16_t, std::string>>(raw);
 }
 
-const std::map<std::uint8_t, std::uint32_t> *stdtybridge$unique_ptr$std$map$k$u8$v$u32$get(const std::unique_ptr<std::map<std::uint8_t, std::uint32_t>> &ptr) noexcept {
+const std::map<std::int16_t, std::string> *stdtybridge$unique_ptr$std$map$k$i16$v$string$get(const std::unique_ptr<std::map<std::int16_t, std::string>> &ptr) noexcept {
     return ptr.get();
 }
 
-std::map<std::uint8_t, std::uint32_t> *stdtybridge$unique_ptr$std$map$k$u8$v$u32$release(std::unique_ptr<std::map<std::uint8_t, std::uint32_t>> &ptr) noexcept {
+std::map<std::int16_t, std::string> *stdtybridge$unique_ptr$std$map$k$i16$v$string$release(std::unique_ptr<std::map<std::int16_t, std::string>> &ptr) noexcept {
     return ptr.release();
 }
 
-void stdtybridge$unique_ptr$std$map$k$u8$v$u32$drop(std::unique_ptr<std::map<std::uint8_t, std::uint32_t>> *ptr) noexcept {
+void stdtybridge$unique_ptr$std$map$k$i16$v$string$drop(std::unique_ptr<std::map<std::int16_t, std::string>> *ptr) noexcept {
     ptr->~unique_ptr();
 }
 
-
-// rust::map shims
-void stdtybridge$rust_map$k$u8$v$u32$drop(rust::Map<std::uint8_t, std::uint32_t, entries::__Ku8Vu32MapEntry> *ptr) noexcept;
-
-entries::__Ku8Vu32MapEntry stdtybridge$rust_map$k$u8$v$u32$pop_first(const rust::Map<std::uint8_t, std::uint32_t, entries::__Ku8Vu32MapEntry> *ptr) noexcept;
-std::size_t stdtybridge$rust_map$k$u8$v$u32$len(const rust::Map<std::uint8_t, std::uint32_t, entries::__Ku8Vu32MapEntry> *ptr) noexcept;
-
-
-
-#endif
-#if __STDTY_MAP_U16 && __STDTY_MAP_U8
-
-void stdtybridge$std$map$k$u16$v$u8$insert(
-    std::map<std::uint16_t, std::uint8_t> *m, std::uint16_t *key, std::uint8_t *value) noexcept {
+void stdtybridge$std$map$k$bool$v$i16$insert(
+    std::map<bool, std::int16_t> *m, bool *key, std::int16_t *value) noexcept {
     m->insert({std::move(*key), std::move(*value)});
     destroy(key);
     destroy(value);
 }
 
-std::uint8_t &stdtybridge$std$map$k$u16$v$u8$get_unchecked(
-    std::map<std::uint16_t, std::uint8_t> *m, std::uint16_t *key) noexcept {
-        return m->at(*key);
-    }
-    
-std::uint8_t &stdtybridge$std$map$k$u16$v$u8$get_unchecked_mut(
-    std::map<std::uint16_t, std::uint8_t> *m, std::uint16_t *key) noexcept {
+std::int16_t &stdtybridge$std$map$k$bool$v$i16$get_unchecked(
+    std::map<bool, std::int16_t> *m, bool *key) noexcept {
     return m->at(*key);
 }
-    
-bool stdtybridge$std$map$k$u16$v$u8$contains_key(
-    std::map<std::uint16_t, std::uint8_t> *m, std::uint16_t *key) noexcept {
-        return m->count(*key) > 0;
+
+std::int16_t &stdtybridge$std$map$k$bool$v$i16$get_unchecked_mut(
+    std::map<bool, std::int16_t> *m, bool *key) noexcept {
+    return m->at(*key);
 }
-        
-const std::uint16_t &stdtybridge$std$map$k$u16$v$u8$key_by_index(
-    std::map<std::uint16_t, std::uint8_t> *m, std::size_t index) noexcept {
+
+bool stdtybridge$std$map$k$bool$v$i16$contains_key(
+    std::map<bool, std::int16_t> *m, bool *key) noexcept {
+    return m->count(*key) > 0;
+}
+
+const bool &stdtybridge$std$map$k$bool$v$i16$key_by_index(
+    std::map<bool, std::int16_t> *m, std::size_t index) noexcept {
     auto it = m->begin();
     std::advance(it, index);
     return it->first;
 }
-            
-const std::uint8_t &stdtybridge$std$map$k$u16$v$u8$value_by_index(
-    std::map<std::uint16_t, std::uint8_t> *m, std::size_t index) noexcept {
+
+const std::int16_t &stdtybridge$std$map$k$bool$v$i16$value_by_index(
+    std::map<bool, std::int16_t> *m, std::size_t index) noexcept {
     auto it = m->begin();
     std::advance(it, index);
     return it->second;
 }
-                
-std::size_t stdtybridge$std$map$k$u16$v$u8$len(
-    std::map<std::uint16_t, std::uint8_t> *m) noexcept {
+
+std::size_t stdtybridge$std$map$k$bool$v$i16$len(
+    std::map<bool, std::int16_t> *m) noexcept {
     return m->size();
 }
 
-void stdtybridge$std$map$k$u16$v$u8$clear(
-    std::map<std::uint16_t, std::uint8_t> *m) noexcept {
+void stdtybridge$std$map$k$bool$v$i16$clear(
+    std::map<bool, std::int16_t> *m) noexcept {
     m->clear();
 }
-    
+
 // std::unique_ptr<std::map<..>>
-void stdtybridge$unique_ptr$std$map$k$u16$v$u8$null(std::unique_ptr<std::map<std::uint16_t, std::uint8_t>> *ptr) noexcept {
-    new (ptr) std::unique_ptr<std::map<std::uint16_t, std::uint8_t>>();
+void stdtybridge$unique_ptr$std$map$k$bool$v$i16$null(std::unique_ptr<std::map<bool, std::int16_t>> *ptr) noexcept {
+    new (ptr) std::unique_ptr<std::map<bool, std::int16_t>>();
 }
 
-void stdtybridge$unique_ptr$std$map$k$u16$v$u8$raw(std::unique_ptr<std::map<std::uint16_t, std::uint8_t>> *ptr,
-    std::map<std::uint16_t, std::uint8_t> *raw) noexcept {
-    new (ptr) std::unique_ptr<std::map<std::uint16_t, std::uint8_t>>(raw);
+void stdtybridge$unique_ptr$std$map$k$bool$v$i16$raw(std::unique_ptr<std::map<bool, std::int16_t>> *ptr,
+                                                     std::map<bool, std::int16_t> *raw) noexcept {
+    new (ptr) std::unique_ptr<std::map<bool, std::int16_t>>(raw);
 }
 
-const std::map<std::uint16_t, std::uint8_t> *stdtybridge$unique_ptr$std$map$k$u16$v$u8$get(const std::unique_ptr<std::map<std::uint16_t, std::uint8_t>> &ptr) noexcept {
+const std::map<bool, std::int16_t> *stdtybridge$unique_ptr$std$map$k$bool$v$i16$get(const std::unique_ptr<std::map<bool, std::int16_t>> &ptr) noexcept {
     return ptr.get();
 }
 
-std::map<std::uint16_t, std::uint8_t> *stdtybridge$unique_ptr$std$map$k$u16$v$u8$release(std::unique_ptr<std::map<std::uint16_t, std::uint8_t>> &ptr) noexcept {
+std::map<bool, std::int16_t> *stdtybridge$unique_ptr$std$map$k$bool$v$i16$release(std::unique_ptr<std::map<bool, std::int16_t>> &ptr) noexcept {
     return ptr.release();
 }
 
-void stdtybridge$unique_ptr$std$map$k$u16$v$u8$drop(std::unique_ptr<std::map<std::uint16_t, std::uint8_t>> *ptr) noexcept {
+void stdtybridge$unique_ptr$std$map$k$bool$v$i16$drop(std::unique_ptr<std::map<bool, std::int16_t>> *ptr) noexcept {
     ptr->~unique_ptr();
 }
 
-
-// rust::map shims
-void stdtybridge$rust_map$k$u16$v$u8$drop(rust::Map<std::uint16_t, std::uint8_t, entries::__Ku16Vu8MapEntry> *ptr) noexcept;
-
-entries::__Ku16Vu8MapEntry stdtybridge$rust_map$k$u16$v$u8$pop_first(const rust::Map<std::uint16_t, std::uint8_t, entries::__Ku16Vu8MapEntry> *ptr) noexcept;
-std::size_t stdtybridge$rust_map$k$u16$v$u8$len(const rust::Map<std::uint16_t, std::uint8_t, entries::__Ku16Vu8MapEntry> *ptr) noexcept;
-
-
-
-#endif
-#if __STDTY_MAP_U16 && __STDTY_MAP_U16
-
-void stdtybridge$std$map$k$u16$v$u16$insert(
-    std::map<std::uint16_t, std::uint16_t> *m, std::uint16_t *key, std::uint16_t *value) noexcept {
+void stdtybridge$std$map$k$bool$v$bool$insert(
+    std::map<bool, bool> *m, bool *key, bool *value) noexcept {
     m->insert({std::move(*key), std::move(*value)});
     destroy(key);
     destroy(value);
 }
 
-std::uint16_t &stdtybridge$std$map$k$u16$v$u16$get_unchecked(
-    std::map<std::uint16_t, std::uint16_t> *m, std::uint16_t *key) noexcept {
-        return m->at(*key);
-    }
-    
-std::uint16_t &stdtybridge$std$map$k$u16$v$u16$get_unchecked_mut(
-    std::map<std::uint16_t, std::uint16_t> *m, std::uint16_t *key) noexcept {
+bool &stdtybridge$std$map$k$bool$v$bool$get_unchecked(
+    std::map<bool, bool> *m, bool *key) noexcept {
     return m->at(*key);
 }
-    
-bool stdtybridge$std$map$k$u16$v$u16$contains_key(
-    std::map<std::uint16_t, std::uint16_t> *m, std::uint16_t *key) noexcept {
-        return m->count(*key) > 0;
+
+bool &stdtybridge$std$map$k$bool$v$bool$get_unchecked_mut(
+    std::map<bool, bool> *m, bool *key) noexcept {
+    return m->at(*key);
 }
-        
-const std::uint16_t &stdtybridge$std$map$k$u16$v$u16$key_by_index(
-    std::map<std::uint16_t, std::uint16_t> *m, std::size_t index) noexcept {
+
+bool stdtybridge$std$map$k$bool$v$bool$contains_key(
+    std::map<bool, bool> *m, bool *key) noexcept {
+    return m->count(*key) > 0;
+}
+
+const bool &stdtybridge$std$map$k$bool$v$bool$key_by_index(
+    std::map<bool, bool> *m, std::size_t index) noexcept {
     auto it = m->begin();
     std::advance(it, index);
     return it->first;
 }
-            
-const std::uint16_t &stdtybridge$std$map$k$u16$v$u16$value_by_index(
-    std::map<std::uint16_t, std::uint16_t> *m, std::size_t index) noexcept {
+
+const bool &stdtybridge$std$map$k$bool$v$bool$value_by_index(
+    std::map<bool, bool> *m, std::size_t index) noexcept {
     auto it = m->begin();
     std::advance(it, index);
     return it->second;
 }
-                
-std::size_t stdtybridge$std$map$k$u16$v$u16$len(
-    std::map<std::uint16_t, std::uint16_t> *m) noexcept {
+
+std::size_t stdtybridge$std$map$k$bool$v$bool$len(
+    std::map<bool, bool> *m) noexcept {
     return m->size();
 }
 
-void stdtybridge$std$map$k$u16$v$u16$clear(
-    std::map<std::uint16_t, std::uint16_t> *m) noexcept {
+void stdtybridge$std$map$k$bool$v$bool$clear(
+    std::map<bool, bool> *m) noexcept {
     m->clear();
 }
-    
+
 // std::unique_ptr<std::map<..>>
-void stdtybridge$unique_ptr$std$map$k$u16$v$u16$null(std::unique_ptr<std::map<std::uint16_t, std::uint16_t>> *ptr) noexcept {
-    new (ptr) std::unique_ptr<std::map<std::uint16_t, std::uint16_t>>();
+void stdtybridge$unique_ptr$std$map$k$bool$v$bool$null(std::unique_ptr<std::map<bool, bool>> *ptr) noexcept {
+    new (ptr) std::unique_ptr<std::map<bool, bool>>();
 }
 
-void stdtybridge$unique_ptr$std$map$k$u16$v$u16$raw(std::unique_ptr<std::map<std::uint16_t, std::uint16_t>> *ptr,
-    std::map<std::uint16_t, std::uint16_t> *raw) noexcept {
-    new (ptr) std::unique_ptr<std::map<std::uint16_t, std::uint16_t>>(raw);
+void stdtybridge$unique_ptr$std$map$k$bool$v$bool$raw(std::unique_ptr<std::map<bool, bool>> *ptr,
+                                                      std::map<bool, bool> *raw) noexcept {
+    new (ptr) std::unique_ptr<std::map<bool, bool>>(raw);
 }
 
-const std::map<std::uint16_t, std::uint16_t> *stdtybridge$unique_ptr$std$map$k$u16$v$u16$get(const std::unique_ptr<std::map<std::uint16_t, std::uint16_t>> &ptr) noexcept {
+const std::map<bool, bool> *stdtybridge$unique_ptr$std$map$k$bool$v$bool$get(const std::unique_ptr<std::map<bool, bool>> &ptr) noexcept {
     return ptr.get();
 }
 
-std::map<std::uint16_t, std::uint16_t> *stdtybridge$unique_ptr$std$map$k$u16$v$u16$release(std::unique_ptr<std::map<std::uint16_t, std::uint16_t>> &ptr) noexcept {
+std::map<bool, bool> *stdtybridge$unique_ptr$std$map$k$bool$v$bool$release(std::unique_ptr<std::map<bool, bool>> &ptr) noexcept {
     return ptr.release();
 }
 
-void stdtybridge$unique_ptr$std$map$k$u16$v$u16$drop(std::unique_ptr<std::map<std::uint16_t, std::uint16_t>> *ptr) noexcept {
+void stdtybridge$unique_ptr$std$map$k$bool$v$bool$drop(std::unique_ptr<std::map<bool, bool>> *ptr) noexcept {
     ptr->~unique_ptr();
 }
 
-
-// rust::map shims
-void stdtybridge$rust_map$k$u16$v$u16$drop(rust::Map<std::uint16_t, std::uint16_t, entries::__Ku16Vu16MapEntry> *ptr) noexcept;
-
-entries::__Ku16Vu16MapEntry stdtybridge$rust_map$k$u16$v$u16$pop_first(const rust::Map<std::uint16_t, std::uint16_t, entries::__Ku16Vu16MapEntry> *ptr) noexcept;
-std::size_t stdtybridge$rust_map$k$u16$v$u16$len(const rust::Map<std::uint16_t, std::uint16_t, entries::__Ku16Vu16MapEntry> *ptr) noexcept;
-
-
-
-#endif
-#if __STDTY_MAP_U16 && __STDTY_MAP_U32
-
-void stdtybridge$std$map$k$u16$v$u32$insert(
-    std::map<std::uint16_t, std::uint32_t> *m, std::uint16_t *key, std::uint32_t *value) noexcept {
+void stdtybridge$std$map$k$bool$v$string$insert(
+    std::map<bool, std::string> *m, bool *key, std::string *value) noexcept {
     m->insert({std::move(*key), std::move(*value)});
     destroy(key);
     destroy(value);
 }
 
-std::uint32_t &stdtybridge$std$map$k$u16$v$u32$get_unchecked(
-    std::map<std::uint16_t, std::uint32_t> *m, std::uint16_t *key) noexcept {
-        return m->at(*key);
-    }
-    
-std::uint32_t &stdtybridge$std$map$k$u16$v$u32$get_unchecked_mut(
-    std::map<std::uint16_t, std::uint32_t> *m, std::uint16_t *key) noexcept {
+std::string &stdtybridge$std$map$k$bool$v$string$get_unchecked(
+    std::map<bool, std::string> *m, bool *key) noexcept {
     return m->at(*key);
 }
-    
-bool stdtybridge$std$map$k$u16$v$u32$contains_key(
-    std::map<std::uint16_t, std::uint32_t> *m, std::uint16_t *key) noexcept {
-        return m->count(*key) > 0;
+
+std::string &stdtybridge$std$map$k$bool$v$string$get_unchecked_mut(
+    std::map<bool, std::string> *m, bool *key) noexcept {
+    return m->at(*key);
 }
-        
-const std::uint16_t &stdtybridge$std$map$k$u16$v$u32$key_by_index(
-    std::map<std::uint16_t, std::uint32_t> *m, std::size_t index) noexcept {
+
+bool stdtybridge$std$map$k$bool$v$string$contains_key(
+    std::map<bool, std::string> *m, bool *key) noexcept {
+    return m->count(*key) > 0;
+}
+
+const bool &stdtybridge$std$map$k$bool$v$string$key_by_index(
+    std::map<bool, std::string> *m, std::size_t index) noexcept {
     auto it = m->begin();
     std::advance(it, index);
     return it->first;
 }
-            
-const std::uint32_t &stdtybridge$std$map$k$u16$v$u32$value_by_index(
-    std::map<std::uint16_t, std::uint32_t> *m, std::size_t index) noexcept {
+
+const std::string &stdtybridge$std$map$k$bool$v$string$value_by_index(
+    std::map<bool, std::string> *m, std::size_t index) noexcept {
     auto it = m->begin();
     std::advance(it, index);
     return it->second;
 }
-                
-std::size_t stdtybridge$std$map$k$u16$v$u32$len(
-    std::map<std::uint16_t, std::uint32_t> *m) noexcept {
+
+std::size_t stdtybridge$std$map$k$bool$v$string$len(
+    std::map<bool, std::string> *m) noexcept {
     return m->size();
 }
 
-void stdtybridge$std$map$k$u16$v$u32$clear(
-    std::map<std::uint16_t, std::uint32_t> *m) noexcept {
+void stdtybridge$std$map$k$bool$v$string$clear(
+    std::map<bool, std::string> *m) noexcept {
     m->clear();
 }
-    
+
 // std::unique_ptr<std::map<..>>
-void stdtybridge$unique_ptr$std$map$k$u16$v$u32$null(std::unique_ptr<std::map<std::uint16_t, std::uint32_t>> *ptr) noexcept {
-    new (ptr) std::unique_ptr<std::map<std::uint16_t, std::uint32_t>>();
+void stdtybridge$unique_ptr$std$map$k$bool$v$string$null(std::unique_ptr<std::map<bool, std::string>> *ptr) noexcept {
+    new (ptr) std::unique_ptr<std::map<bool, std::string>>();
 }
 
-void stdtybridge$unique_ptr$std$map$k$u16$v$u32$raw(std::unique_ptr<std::map<std::uint16_t, std::uint32_t>> *ptr,
-    std::map<std::uint16_t, std::uint32_t> *raw) noexcept {
-    new (ptr) std::unique_ptr<std::map<std::uint16_t, std::uint32_t>>(raw);
+void stdtybridge$unique_ptr$std$map$k$bool$v$string$raw(std::unique_ptr<std::map<bool, std::string>> *ptr,
+                                                        std::map<bool, std::string> *raw) noexcept {
+    new (ptr) std::unique_ptr<std::map<bool, std::string>>(raw);
 }
 
-const std::map<std::uint16_t, std::uint32_t> *stdtybridge$unique_ptr$std$map$k$u16$v$u32$get(const std::unique_ptr<std::map<std::uint16_t, std::uint32_t>> &ptr) noexcept {
+const std::map<bool, std::string> *stdtybridge$unique_ptr$std$map$k$bool$v$string$get(const std::unique_ptr<std::map<bool, std::string>> &ptr) noexcept {
     return ptr.get();
 }
 
-std::map<std::uint16_t, std::uint32_t> *stdtybridge$unique_ptr$std$map$k$u16$v$u32$release(std::unique_ptr<std::map<std::uint16_t, std::uint32_t>> &ptr) noexcept {
+std::map<bool, std::string> *stdtybridge$unique_ptr$std$map$k$bool$v$string$release(std::unique_ptr<std::map<bool, std::string>> &ptr) noexcept {
     return ptr.release();
 }
 
-void stdtybridge$unique_ptr$std$map$k$u16$v$u32$drop(std::unique_ptr<std::map<std::uint16_t, std::uint32_t>> *ptr) noexcept {
+void stdtybridge$unique_ptr$std$map$k$bool$v$string$drop(std::unique_ptr<std::map<bool, std::string>> *ptr) noexcept {
     ptr->~unique_ptr();
 }
 
-
-// rust::map shims
-void stdtybridge$rust_map$k$u16$v$u32$drop(rust::Map<std::uint16_t, std::uint32_t, entries::__Ku16Vu32MapEntry> *ptr) noexcept;
-
-entries::__Ku16Vu32MapEntry stdtybridge$rust_map$k$u16$v$u32$pop_first(const rust::Map<std::uint16_t, std::uint32_t, entries::__Ku16Vu32MapEntry> *ptr) noexcept;
-std::size_t stdtybridge$rust_map$k$u16$v$u32$len(const rust::Map<std::uint16_t, std::uint32_t, entries::__Ku16Vu32MapEntry> *ptr) noexcept;
-
-
-
-#endif
-#if __STDTY_MAP_U32 && __STDTY_MAP_U8
-
-void stdtybridge$std$map$k$u32$v$u8$insert(
-    std::map<std::uint32_t, std::uint8_t> *m, std::uint32_t *key, std::uint8_t *value) noexcept {
+void stdtybridge$std$map$k$string$v$i16$insert(
+    std::map<std::string, std::int16_t> *m, std::string *key, std::int16_t *value) noexcept {
     m->insert({std::move(*key), std::move(*value)});
     destroy(key);
     destroy(value);
 }
 
-std::uint8_t &stdtybridge$std$map$k$u32$v$u8$get_unchecked(
-    std::map<std::uint32_t, std::uint8_t> *m, std::uint32_t *key) noexcept {
-        return m->at(*key);
-    }
-    
-std::uint8_t &stdtybridge$std$map$k$u32$v$u8$get_unchecked_mut(
-    std::map<std::uint32_t, std::uint8_t> *m, std::uint32_t *key) noexcept {
+std::int16_t &stdtybridge$std$map$k$string$v$i16$get_unchecked(
+    std::map<std::string, std::int16_t> *m, std::string *key) noexcept {
     return m->at(*key);
 }
-    
-bool stdtybridge$std$map$k$u32$v$u8$contains_key(
-    std::map<std::uint32_t, std::uint8_t> *m, std::uint32_t *key) noexcept {
-        return m->count(*key) > 0;
+
+std::int16_t &stdtybridge$std$map$k$string$v$i16$get_unchecked_mut(
+    std::map<std::string, std::int16_t> *m, std::string *key) noexcept {
+    return m->at(*key);
 }
-        
-const std::uint32_t &stdtybridge$std$map$k$u32$v$u8$key_by_index(
-    std::map<std::uint32_t, std::uint8_t> *m, std::size_t index) noexcept {
+
+bool stdtybridge$std$map$k$string$v$i16$contains_key(
+    std::map<std::string, std::int16_t> *m, std::string *key) noexcept {
+    return m->count(*key) > 0;
+}
+
+const std::string &stdtybridge$std$map$k$string$v$i16$key_by_index(
+    std::map<std::string, std::int16_t> *m, std::size_t index) noexcept {
     auto it = m->begin();
     std::advance(it, index);
     return it->first;
 }
-            
-const std::uint8_t &stdtybridge$std$map$k$u32$v$u8$value_by_index(
-    std::map<std::uint32_t, std::uint8_t> *m, std::size_t index) noexcept {
+
+const std::int16_t &stdtybridge$std$map$k$string$v$i16$value_by_index(
+    std::map<std::string, std::int16_t> *m, std::size_t index) noexcept {
     auto it = m->begin();
     std::advance(it, index);
     return it->second;
 }
-                
-std::size_t stdtybridge$std$map$k$u32$v$u8$len(
-    std::map<std::uint32_t, std::uint8_t> *m) noexcept {
+
+std::size_t stdtybridge$std$map$k$string$v$i16$len(
+    std::map<std::string, std::int16_t> *m) noexcept {
     return m->size();
 }
 
-void stdtybridge$std$map$k$u32$v$u8$clear(
-    std::map<std::uint32_t, std::uint8_t> *m) noexcept {
+void stdtybridge$std$map$k$string$v$i16$clear(
+    std::map<std::string, std::int16_t> *m) noexcept {
     m->clear();
 }
-    
+
 // std::unique_ptr<std::map<..>>
-void stdtybridge$unique_ptr$std$map$k$u32$v$u8$null(std::unique_ptr<std::map<std::uint32_t, std::uint8_t>> *ptr) noexcept {
-    new (ptr) std::unique_ptr<std::map<std::uint32_t, std::uint8_t>>();
+void stdtybridge$unique_ptr$std$map$k$string$v$i16$null(std::unique_ptr<std::map<std::string, std::int16_t>> *ptr) noexcept {
+    new (ptr) std::unique_ptr<std::map<std::string, std::int16_t>>();
 }
 
-void stdtybridge$unique_ptr$std$map$k$u32$v$u8$raw(std::unique_ptr<std::map<std::uint32_t, std::uint8_t>> *ptr,
-    std::map<std::uint32_t, std::uint8_t> *raw) noexcept {
-    new (ptr) std::unique_ptr<std::map<std::uint32_t, std::uint8_t>>(raw);
+void stdtybridge$unique_ptr$std$map$k$string$v$i16$raw(std::unique_ptr<std::map<std::string, std::int16_t>> *ptr,
+                                                       std::map<std::string, std::int16_t> *raw) noexcept {
+    new (ptr) std::unique_ptr<std::map<std::string, std::int16_t>>(raw);
 }
 
-const std::map<std::uint32_t, std::uint8_t> *stdtybridge$unique_ptr$std$map$k$u32$v$u8$get(const std::unique_ptr<std::map<std::uint32_t, std::uint8_t>> &ptr) noexcept {
+const std::map<std::string, std::int16_t> *stdtybridge$unique_ptr$std$map$k$string$v$i16$get(const std::unique_ptr<std::map<std::string, std::int16_t>> &ptr) noexcept {
     return ptr.get();
 }
 
-std::map<std::uint32_t, std::uint8_t> *stdtybridge$unique_ptr$std$map$k$u32$v$u8$release(std::unique_ptr<std::map<std::uint32_t, std::uint8_t>> &ptr) noexcept {
+std::map<std::string, std::int16_t> *stdtybridge$unique_ptr$std$map$k$string$v$i16$release(std::unique_ptr<std::map<std::string, std::int16_t>> &ptr) noexcept {
     return ptr.release();
 }
 
-void stdtybridge$unique_ptr$std$map$k$u32$v$u8$drop(std::unique_ptr<std::map<std::uint32_t, std::uint8_t>> *ptr) noexcept {
+void stdtybridge$unique_ptr$std$map$k$string$v$i16$drop(std::unique_ptr<std::map<std::string, std::int16_t>> *ptr) noexcept {
     ptr->~unique_ptr();
 }
 
-
-// rust::map shims
-void stdtybridge$rust_map$k$u32$v$u8$drop(rust::Map<std::uint32_t, std::uint8_t, entries::__Ku32Vu8MapEntry> *ptr) noexcept;
-
-entries::__Ku32Vu8MapEntry stdtybridge$rust_map$k$u32$v$u8$pop_first(const rust::Map<std::uint32_t, std::uint8_t, entries::__Ku32Vu8MapEntry> *ptr) noexcept;
-std::size_t stdtybridge$rust_map$k$u32$v$u8$len(const rust::Map<std::uint32_t, std::uint8_t, entries::__Ku32Vu8MapEntry> *ptr) noexcept;
-
-
-
-#endif
-#if __STDTY_MAP_U32 && __STDTY_MAP_U16
-
-void stdtybridge$std$map$k$u32$v$u16$insert(
-    std::map<std::uint32_t, std::uint16_t> *m, std::uint32_t *key, std::uint16_t *value) noexcept {
+void stdtybridge$std$map$k$string$v$bool$insert(
+    std::map<std::string, bool> *m, std::string *key, bool *value) noexcept {
     m->insert({std::move(*key), std::move(*value)});
     destroy(key);
     destroy(value);
 }
 
-std::uint16_t &stdtybridge$std$map$k$u32$v$u16$get_unchecked(
-    std::map<std::uint32_t, std::uint16_t> *m, std::uint32_t *key) noexcept {
-        return m->at(*key);
-    }
-    
-std::uint16_t &stdtybridge$std$map$k$u32$v$u16$get_unchecked_mut(
-    std::map<std::uint32_t, std::uint16_t> *m, std::uint32_t *key) noexcept {
+bool &stdtybridge$std$map$k$string$v$bool$get_unchecked(
+    std::map<std::string, bool> *m, std::string *key) noexcept {
     return m->at(*key);
 }
-    
-bool stdtybridge$std$map$k$u32$v$u16$contains_key(
-    std::map<std::uint32_t, std::uint16_t> *m, std::uint32_t *key) noexcept {
-        return m->count(*key) > 0;
+
+bool &stdtybridge$std$map$k$string$v$bool$get_unchecked_mut(
+    std::map<std::string, bool> *m, std::string *key) noexcept {
+    return m->at(*key);
 }
-        
-const std::uint32_t &stdtybridge$std$map$k$u32$v$u16$key_by_index(
-    std::map<std::uint32_t, std::uint16_t> *m, std::size_t index) noexcept {
+
+bool stdtybridge$std$map$k$string$v$bool$contains_key(
+    std::map<std::string, bool> *m, std::string *key) noexcept {
+    return m->count(*key) > 0;
+}
+
+const std::string &stdtybridge$std$map$k$string$v$bool$key_by_index(
+    std::map<std::string, bool> *m, std::size_t index) noexcept {
     auto it = m->begin();
     std::advance(it, index);
     return it->first;
 }
-            
-const std::uint16_t &stdtybridge$std$map$k$u32$v$u16$value_by_index(
-    std::map<std::uint32_t, std::uint16_t> *m, std::size_t index) noexcept {
+
+const bool &stdtybridge$std$map$k$string$v$bool$value_by_index(
+    std::map<std::string, bool> *m, std::size_t index) noexcept {
     auto it = m->begin();
     std::advance(it, index);
     return it->second;
 }
-                
-std::size_t stdtybridge$std$map$k$u32$v$u16$len(
-    std::map<std::uint32_t, std::uint16_t> *m) noexcept {
+
+std::size_t stdtybridge$std$map$k$string$v$bool$len(
+    std::map<std::string, bool> *m) noexcept {
     return m->size();
 }
 
-void stdtybridge$std$map$k$u32$v$u16$clear(
-    std::map<std::uint32_t, std::uint16_t> *m) noexcept {
+void stdtybridge$std$map$k$string$v$bool$clear(
+    std::map<std::string, bool> *m) noexcept {
     m->clear();
 }
-    
+
 // std::unique_ptr<std::map<..>>
-void stdtybridge$unique_ptr$std$map$k$u32$v$u16$null(std::unique_ptr<std::map<std::uint32_t, std::uint16_t>> *ptr) noexcept {
-    new (ptr) std::unique_ptr<std::map<std::uint32_t, std::uint16_t>>();
+void stdtybridge$unique_ptr$std$map$k$string$v$bool$null(std::unique_ptr<std::map<std::string, bool>> *ptr) noexcept {
+    new (ptr) std::unique_ptr<std::map<std::string, bool>>();
 }
 
-void stdtybridge$unique_ptr$std$map$k$u32$v$u16$raw(std::unique_ptr<std::map<std::uint32_t, std::uint16_t>> *ptr,
-    std::map<std::uint32_t, std::uint16_t> *raw) noexcept {
-    new (ptr) std::unique_ptr<std::map<std::uint32_t, std::uint16_t>>(raw);
+void stdtybridge$unique_ptr$std$map$k$string$v$bool$raw(std::unique_ptr<std::map<std::string, bool>> *ptr,
+                                                        std::map<std::string, bool> *raw) noexcept {
+    new (ptr) std::unique_ptr<std::map<std::string, bool>>(raw);
 }
 
-const std::map<std::uint32_t, std::uint16_t> *stdtybridge$unique_ptr$std$map$k$u32$v$u16$get(const std::unique_ptr<std::map<std::uint32_t, std::uint16_t>> &ptr) noexcept {
+const std::map<std::string, bool> *stdtybridge$unique_ptr$std$map$k$string$v$bool$get(const std::unique_ptr<std::map<std::string, bool>> &ptr) noexcept {
     return ptr.get();
 }
 
-std::map<std::uint32_t, std::uint16_t> *stdtybridge$unique_ptr$std$map$k$u32$v$u16$release(std::unique_ptr<std::map<std::uint32_t, std::uint16_t>> &ptr) noexcept {
+std::map<std::string, bool> *stdtybridge$unique_ptr$std$map$k$string$v$bool$release(std::unique_ptr<std::map<std::string, bool>> &ptr) noexcept {
     return ptr.release();
 }
 
-void stdtybridge$unique_ptr$std$map$k$u32$v$u16$drop(std::unique_ptr<std::map<std::uint32_t, std::uint16_t>> *ptr) noexcept {
+void stdtybridge$unique_ptr$std$map$k$string$v$bool$drop(std::unique_ptr<std::map<std::string, bool>> *ptr) noexcept {
     ptr->~unique_ptr();
 }
 
-
-// rust::map shims
-void stdtybridge$rust_map$k$u32$v$u16$drop(rust::Map<std::uint32_t, std::uint16_t, entries::__Ku32Vu16MapEntry> *ptr) noexcept;
-
-entries::__Ku32Vu16MapEntry stdtybridge$rust_map$k$u32$v$u16$pop_first(const rust::Map<std::uint32_t, std::uint16_t, entries::__Ku32Vu16MapEntry> *ptr) noexcept;
-std::size_t stdtybridge$rust_map$k$u32$v$u16$len(const rust::Map<std::uint32_t, std::uint16_t, entries::__Ku32Vu16MapEntry> *ptr) noexcept;
-
-
-
-#endif
-#if __STDTY_MAP_U32 && __STDTY_MAP_U32
-
-void stdtybridge$std$map$k$u32$v$u32$insert(
-    std::map<std::uint32_t, std::uint32_t> *m, std::uint32_t *key, std::uint32_t *value) noexcept {
+void stdtybridge$std$map$k$string$v$string$insert(
+    std::map<std::string, std::string> *m, std::string *key, std::string *value) noexcept {
     m->insert({std::move(*key), std::move(*value)});
     destroy(key);
     destroy(value);
 }
 
-std::uint32_t &stdtybridge$std$map$k$u32$v$u32$get_unchecked(
-    std::map<std::uint32_t, std::uint32_t> *m, std::uint32_t *key) noexcept {
-        return m->at(*key);
-    }
-    
-std::uint32_t &stdtybridge$std$map$k$u32$v$u32$get_unchecked_mut(
-    std::map<std::uint32_t, std::uint32_t> *m, std::uint32_t *key) noexcept {
+std::string &stdtybridge$std$map$k$string$v$string$get_unchecked(
+    std::map<std::string, std::string> *m, std::string *key) noexcept {
     return m->at(*key);
 }
-    
-bool stdtybridge$std$map$k$u32$v$u32$contains_key(
-    std::map<std::uint32_t, std::uint32_t> *m, std::uint32_t *key) noexcept {
-        return m->count(*key) > 0;
+
+std::string &stdtybridge$std$map$k$string$v$string$get_unchecked_mut(
+    std::map<std::string, std::string> *m, std::string *key) noexcept {
+    return m->at(*key);
 }
-        
-const std::uint32_t &stdtybridge$std$map$k$u32$v$u32$key_by_index(
-    std::map<std::uint32_t, std::uint32_t> *m, std::size_t index) noexcept {
+
+bool stdtybridge$std$map$k$string$v$string$contains_key(
+    std::map<std::string, std::string> *m, std::string *key) noexcept {
+    return m->count(*key) > 0;
+}
+
+const std::string &stdtybridge$std$map$k$string$v$string$key_by_index(
+    std::map<std::string, std::string> *m, std::size_t index) noexcept {
     auto it = m->begin();
     std::advance(it, index);
     return it->first;
 }
-            
-const std::uint32_t &stdtybridge$std$map$k$u32$v$u32$value_by_index(
-    std::map<std::uint32_t, std::uint32_t> *m, std::size_t index) noexcept {
+
+const std::string &stdtybridge$std$map$k$string$v$string$value_by_index(
+    std::map<std::string, std::string> *m, std::size_t index) noexcept {
     auto it = m->begin();
     std::advance(it, index);
     return it->second;
 }
-                
-std::size_t stdtybridge$std$map$k$u32$v$u32$len(
-    std::map<std::uint32_t, std::uint32_t> *m) noexcept {
+
+std::size_t stdtybridge$std$map$k$string$v$string$len(
+    std::map<std::string, std::string> *m) noexcept {
     return m->size();
 }
 
-void stdtybridge$std$map$k$u32$v$u32$clear(
-    std::map<std::uint32_t, std::uint32_t> *m) noexcept {
+void stdtybridge$std$map$k$string$v$string$clear(
+    std::map<std::string, std::string> *m) noexcept {
     m->clear();
 }
-    
+
 // std::unique_ptr<std::map<..>>
-void stdtybridge$unique_ptr$std$map$k$u32$v$u32$null(std::unique_ptr<std::map<std::uint32_t, std::uint32_t>> *ptr) noexcept {
-    new (ptr) std::unique_ptr<std::map<std::uint32_t, std::uint32_t>>();
+void stdtybridge$unique_ptr$std$map$k$string$v$string$null(std::unique_ptr<std::map<std::string, std::string>> *ptr) noexcept {
+    new (ptr) std::unique_ptr<std::map<std::string, std::string>>();
 }
 
-void stdtybridge$unique_ptr$std$map$k$u32$v$u32$raw(std::unique_ptr<std::map<std::uint32_t, std::uint32_t>> *ptr,
-    std::map<std::uint32_t, std::uint32_t> *raw) noexcept {
-    new (ptr) std::unique_ptr<std::map<std::uint32_t, std::uint32_t>>(raw);
+void stdtybridge$unique_ptr$std$map$k$string$v$string$raw(std::unique_ptr<std::map<std::string, std::string>> *ptr,
+                                                          std::map<std::string, std::string> *raw) noexcept {
+    new (ptr) std::unique_ptr<std::map<std::string, std::string>>(raw);
 }
 
-const std::map<std::uint32_t, std::uint32_t> *stdtybridge$unique_ptr$std$map$k$u32$v$u32$get(const std::unique_ptr<std::map<std::uint32_t, std::uint32_t>> &ptr) noexcept {
+const std::map<std::string, std::string> *stdtybridge$unique_ptr$std$map$k$string$v$string$get(const std::unique_ptr<std::map<std::string, std::string>> &ptr) noexcept {
     return ptr.get();
 }
 
-std::map<std::uint32_t, std::uint32_t> *stdtybridge$unique_ptr$std$map$k$u32$v$u32$release(std::unique_ptr<std::map<std::uint32_t, std::uint32_t>> &ptr) noexcept {
+std::map<std::string, std::string> *stdtybridge$unique_ptr$std$map$k$string$v$string$release(std::unique_ptr<std::map<std::string, std::string>> &ptr) noexcept {
     return ptr.release();
 }
 
-void stdtybridge$unique_ptr$std$map$k$u32$v$u32$drop(std::unique_ptr<std::map<std::uint32_t, std::uint32_t>> *ptr) noexcept {
+void stdtybridge$unique_ptr$std$map$k$string$v$string$drop(std::unique_ptr<std::map<std::string, std::string>> *ptr) noexcept {
     ptr->~unique_ptr();
 }
 
+// rust2::Map shims
+void stdtybridge$rust_map$k$i16$v$i16$drop(rust2::Map<std::int16_t, std::int16_t, entries::__Ki16Vi16MapEntry> *ptr) noexcept;
 
-// rust::map shims
-void stdtybridge$rust_map$k$u32$v$u32$drop(rust::Map<std::uint32_t, std::uint32_t, entries::__Ku32Vu32MapEntry> *ptr) noexcept;
+entries::__Ki16Vi16MapEntry stdtybridge$rust_map$k$i16$v$i16$pop_first(const rust2::Map<std::int16_t, std::int16_t, entries::__Ki16Vi16MapEntry> *ptr) noexcept;
+std::size_t stdtybridge$rust_map$k$i16$v$i16$len(const rust2::Map<std::int16_t, std::int16_t, entries::__Ki16Vi16MapEntry> *ptr) noexcept;
 
-entries::__Ku32Vu32MapEntry stdtybridge$rust_map$k$u32$v$u32$pop_first(const rust::Map<std::uint32_t, std::uint32_t, entries::__Ku32Vu32MapEntry> *ptr) noexcept;
-std::size_t stdtybridge$rust_map$k$u32$v$u32$len(const rust::Map<std::uint32_t, std::uint32_t, entries::__Ku32Vu32MapEntry> *ptr) noexcept;
+// rust2::Map shims
+void stdtybridge$rust_map$k$i16$v$bool$drop(rust2::Map<std::int16_t, bool, entries::__Ki16VboolMapEntry> *ptr) noexcept;
 
+entries::__Ki16VboolMapEntry stdtybridge$rust_map$k$i16$v$bool$pop_first(const rust2::Map<std::int16_t, bool, entries::__Ki16VboolMapEntry> *ptr) noexcept;
+std::size_t stdtybridge$rust_map$k$i16$v$bool$len(const rust2::Map<std::int16_t, bool, entries::__Ki16VboolMapEntry> *ptr) noexcept;
 
+// rust2::Map shims
+void stdtybridge$rust_map$k$i16$v$string$drop(rust2::Map<std::int16_t, rust::string, entries::__Ki16VstringMapEntry> *ptr) noexcept;
 
-#endif
+entries::__Ki16VstringMapEntry stdtybridge$rust_map$k$i16$v$string$pop_first(const rust2::Map<std::int16_t, rust::string, entries::__Ki16VstringMapEntry> *ptr) noexcept;
+std::size_t stdtybridge$rust_map$k$i16$v$string$len(const rust2::Map<std::int16_t, rust::string, entries::__Ki16VstringMapEntry> *ptr) noexcept;
+
+// rust2::Map shims
+void stdtybridge$rust_map$k$bool$v$i16$drop(rust2::Map<bool, std::int16_t, entries::__KboolVi16MapEntry> *ptr) noexcept;
+
+entries::__KboolVi16MapEntry stdtybridge$rust_map$k$bool$v$i16$pop_first(const rust2::Map<bool, std::int16_t, entries::__KboolVi16MapEntry> *ptr) noexcept;
+std::size_t stdtybridge$rust_map$k$bool$v$i16$len(const rust2::Map<bool, std::int16_t, entries::__KboolVi16MapEntry> *ptr) noexcept;
+
+// rust2::Map shims
+void stdtybridge$rust_map$k$bool$v$bool$drop(rust2::Map<bool, bool, entries::__KboolVboolMapEntry> *ptr) noexcept;
+
+entries::__KboolVboolMapEntry stdtybridge$rust_map$k$bool$v$bool$pop_first(const rust2::Map<bool, bool, entries::__KboolVboolMapEntry> *ptr) noexcept;
+std::size_t stdtybridge$rust_map$k$bool$v$bool$len(const rust2::Map<bool, bool, entries::__KboolVboolMapEntry> *ptr) noexcept;
+
+// rust2::Map shims
+void stdtybridge$rust_map$k$bool$v$string$drop(rust2::Map<bool, rust::string, entries::__KboolVstringMapEntry> *ptr) noexcept;
+
+entries::__KboolVstringMapEntry stdtybridge$rust_map$k$bool$v$string$pop_first(const rust2::Map<bool, rust::string, entries::__KboolVstringMapEntry> *ptr) noexcept;
+std::size_t stdtybridge$rust_map$k$bool$v$string$len(const rust2::Map<bool, rust::string, entries::__KboolVstringMapEntry> *ptr) noexcept;
+
+// rust2::Map shims
+void stdtybridge$rust_map$k$string$v$i16$drop(rust2::Map<rust::string, std::int16_t, entries::__KstringVi16MapEntry> *ptr) noexcept;
+
+entries::__KstringVi16MapEntry stdtybridge$rust_map$k$string$v$i16$pop_first(const rust2::Map<rust::string, std::int16_t, entries::__KstringVi16MapEntry> *ptr) noexcept;
+std::size_t stdtybridge$rust_map$k$string$v$i16$len(const rust2::Map<rust::string, std::int16_t, entries::__KstringVi16MapEntry> *ptr) noexcept;
+
+// rust2::Map shims
+void stdtybridge$rust_map$k$string$v$bool$drop(rust2::Map<rust::string, bool, entries::__KstringVboolMapEntry> *ptr) noexcept;
+
+entries::__KstringVboolMapEntry stdtybridge$rust_map$k$string$v$bool$pop_first(const rust2::Map<rust::string, bool, entries::__KstringVboolMapEntry> *ptr) noexcept;
+std::size_t stdtybridge$rust_map$k$string$v$bool$len(const rust2::Map<rust::string, bool, entries::__KstringVboolMapEntry> *ptr) noexcept;
+
+// rust2::Map shims
+void stdtybridge$rust_map$k$string$v$string$drop(rust2::Map<rust::string, rust::string, entries::__KstringVstringMapEntry> *ptr) noexcept;
+
+entries::__KstringVstringMapEntry stdtybridge$rust_map$k$string$v$string$pop_first(const rust2::Map<rust::string, rust::string, entries::__KstringVstringMapEntry> *ptr) noexcept;
+std::size_t stdtybridge$rust_map$k$string$v$string$len(const rust2::Map<rust::string, rust::string, entries::__KstringVstringMapEntry> *ptr) noexcept;
 }
 
-namespace rust {
+namespace rust2 {
 inline namespace stdtybridge {
 
-#if __STDTY_MAP_U8 && __STDTY_MAP_U8
-
 template <>
-void Map<std::uint8_t, std::uint8_t, entries::__Ku8Vu8MapEntry>::drop() noexcept {
-    return stdtybridge$rust_map$k$u8$v$u8$drop(this);
+void Map<std::int16_t, std::int16_t, entries::__Ki16Vi16MapEntry>::drop() noexcept {
+    return stdtybridge$rust_map$k$i16$v$i16$drop(this);
 }
 
 template <>
-entries::__Ku8Vu8MapEntry Map<std::uint8_t, std::uint8_t, entries::__Ku8Vu8MapEntry>::pop_first() noexcept {
-    return stdtybridge$rust_map$k$u8$v$u8$pop_first(this);
+entries::__Ki16Vi16MapEntry Map<std::int16_t, std::int16_t, entries::__Ki16Vi16MapEntry>::pop_first() noexcept {
+    return stdtybridge$rust_map$k$i16$v$i16$pop_first(this);
 }
 
 template <>
-std::size_t Map<std::uint8_t, std::uint8_t, entries::__Ku8Vu8MapEntry>::size() const noexcept {
-    return stdtybridge$rust_map$k$u8$v$u8$len(this);
-}
-#endif
-
-#if __STDTY_MAP_U8 && __STDTY_MAP_U16
-
-template <>
-void Map<std::uint8_t, std::uint16_t, entries::__Ku8Vu16MapEntry>::drop() noexcept {
-    return stdtybridge$rust_map$k$u8$v$u16$drop(this);
+std::size_t Map<std::int16_t, std::int16_t, entries::__Ki16Vi16MapEntry>::size() const noexcept {
+    return stdtybridge$rust_map$k$i16$v$i16$len(this);
 }
 
 template <>
-entries::__Ku8Vu16MapEntry Map<std::uint8_t, std::uint16_t, entries::__Ku8Vu16MapEntry>::pop_first() noexcept {
-    return stdtybridge$rust_map$k$u8$v$u16$pop_first(this);
+void Map<std::int16_t, bool, entries::__Ki16VboolMapEntry>::drop() noexcept {
+    return stdtybridge$rust_map$k$i16$v$bool$drop(this);
 }
 
 template <>
-std::size_t Map<std::uint8_t, std::uint16_t, entries::__Ku8Vu16MapEntry>::size() const noexcept {
-    return stdtybridge$rust_map$k$u8$v$u16$len(this);
-}
-#endif
-
-#if __STDTY_MAP_U8 && __STDTY_MAP_U32
-
-template <>
-void Map<std::uint8_t, std::uint32_t, entries::__Ku8Vu32MapEntry>::drop() noexcept {
-    return stdtybridge$rust_map$k$u8$v$u32$drop(this);
+entries::__Ki16VboolMapEntry Map<std::int16_t, bool, entries::__Ki16VboolMapEntry>::pop_first() noexcept {
+    return stdtybridge$rust_map$k$i16$v$bool$pop_first(this);
 }
 
 template <>
-entries::__Ku8Vu32MapEntry Map<std::uint8_t, std::uint32_t, entries::__Ku8Vu32MapEntry>::pop_first() noexcept {
-    return stdtybridge$rust_map$k$u8$v$u32$pop_first(this);
+std::size_t Map<std::int16_t, bool, entries::__Ki16VboolMapEntry>::size() const noexcept {
+    return stdtybridge$rust_map$k$i16$v$bool$len(this);
 }
 
 template <>
-std::size_t Map<std::uint8_t, std::uint32_t, entries::__Ku8Vu32MapEntry>::size() const noexcept {
-    return stdtybridge$rust_map$k$u8$v$u32$len(this);
-}
-#endif
-
-#if __STDTY_MAP_U16 && __STDTY_MAP_U8
-
-template <>
-void Map<std::uint16_t, std::uint8_t, entries::__Ku16Vu8MapEntry>::drop() noexcept {
-    return stdtybridge$rust_map$k$u16$v$u8$drop(this);
+void Map<std::int16_t, rust::string, entries::__Ki16VstringMapEntry>::drop() noexcept {
+    return stdtybridge$rust_map$k$i16$v$string$drop(this);
 }
 
 template <>
-entries::__Ku16Vu8MapEntry Map<std::uint16_t, std::uint8_t, entries::__Ku16Vu8MapEntry>::pop_first() noexcept {
-    return stdtybridge$rust_map$k$u16$v$u8$pop_first(this);
+entries::__Ki16VstringMapEntry Map<std::int16_t, rust::string, entries::__Ki16VstringMapEntry>::pop_first() noexcept {
+    return stdtybridge$rust_map$k$i16$v$string$pop_first(this);
 }
 
 template <>
-std::size_t Map<std::uint16_t, std::uint8_t, entries::__Ku16Vu8MapEntry>::size() const noexcept {
-    return stdtybridge$rust_map$k$u16$v$u8$len(this);
-}
-#endif
-
-#if __STDTY_MAP_U16 && __STDTY_MAP_U16
-
-template <>
-void Map<std::uint16_t, std::uint16_t, entries::__Ku16Vu16MapEntry>::drop() noexcept {
-    return stdtybridge$rust_map$k$u16$v$u16$drop(this);
+std::size_t Map<std::int16_t, rust::string, entries::__Ki16VstringMapEntry>::size() const noexcept {
+    return stdtybridge$rust_map$k$i16$v$string$len(this);
 }
 
 template <>
-entries::__Ku16Vu16MapEntry Map<std::uint16_t, std::uint16_t, entries::__Ku16Vu16MapEntry>::pop_first() noexcept {
-    return stdtybridge$rust_map$k$u16$v$u16$pop_first(this);
+void Map<bool, std::int16_t, entries::__KboolVi16MapEntry>::drop() noexcept {
+    return stdtybridge$rust_map$k$bool$v$i16$drop(this);
 }
 
 template <>
-std::size_t Map<std::uint16_t, std::uint16_t, entries::__Ku16Vu16MapEntry>::size() const noexcept {
-    return stdtybridge$rust_map$k$u16$v$u16$len(this);
-}
-#endif
-
-#if __STDTY_MAP_U16 && __STDTY_MAP_U32
-
-template <>
-void Map<std::uint16_t, std::uint32_t, entries::__Ku16Vu32MapEntry>::drop() noexcept {
-    return stdtybridge$rust_map$k$u16$v$u32$drop(this);
+entries::__KboolVi16MapEntry Map<bool, std::int16_t, entries::__KboolVi16MapEntry>::pop_first() noexcept {
+    return stdtybridge$rust_map$k$bool$v$i16$pop_first(this);
 }
 
 template <>
-entries::__Ku16Vu32MapEntry Map<std::uint16_t, std::uint32_t, entries::__Ku16Vu32MapEntry>::pop_first() noexcept {
-    return stdtybridge$rust_map$k$u16$v$u32$pop_first(this);
+std::size_t Map<bool, std::int16_t, entries::__KboolVi16MapEntry>::size() const noexcept {
+    return stdtybridge$rust_map$k$bool$v$i16$len(this);
 }
 
 template <>
-std::size_t Map<std::uint16_t, std::uint32_t, entries::__Ku16Vu32MapEntry>::size() const noexcept {
-    return stdtybridge$rust_map$k$u16$v$u32$len(this);
-}
-#endif
-
-#if __STDTY_MAP_U32 && __STDTY_MAP_U8
-
-template <>
-void Map<std::uint32_t, std::uint8_t, entries::__Ku32Vu8MapEntry>::drop() noexcept {
-    return stdtybridge$rust_map$k$u32$v$u8$drop(this);
+void Map<bool, bool, entries::__KboolVboolMapEntry>::drop() noexcept {
+    return stdtybridge$rust_map$k$bool$v$bool$drop(this);
 }
 
 template <>
-entries::__Ku32Vu8MapEntry Map<std::uint32_t, std::uint8_t, entries::__Ku32Vu8MapEntry>::pop_first() noexcept {
-    return stdtybridge$rust_map$k$u32$v$u8$pop_first(this);
+entries::__KboolVboolMapEntry Map<bool, bool, entries::__KboolVboolMapEntry>::pop_first() noexcept {
+    return stdtybridge$rust_map$k$bool$v$bool$pop_first(this);
 }
 
 template <>
-std::size_t Map<std::uint32_t, std::uint8_t, entries::__Ku32Vu8MapEntry>::size() const noexcept {
-    return stdtybridge$rust_map$k$u32$v$u8$len(this);
-}
-#endif
-
-#if __STDTY_MAP_U32 && __STDTY_MAP_U16
-
-template <>
-void Map<std::uint32_t, std::uint16_t, entries::__Ku32Vu16MapEntry>::drop() noexcept {
-    return stdtybridge$rust_map$k$u32$v$u16$drop(this);
+std::size_t Map<bool, bool, entries::__KboolVboolMapEntry>::size() const noexcept {
+    return stdtybridge$rust_map$k$bool$v$bool$len(this);
 }
 
 template <>
-entries::__Ku32Vu16MapEntry Map<std::uint32_t, std::uint16_t, entries::__Ku32Vu16MapEntry>::pop_first() noexcept {
-    return stdtybridge$rust_map$k$u32$v$u16$pop_first(this);
+void Map<bool, rust::string, entries::__KboolVstringMapEntry>::drop() noexcept {
+    return stdtybridge$rust_map$k$bool$v$string$drop(this);
 }
 
 template <>
-std::size_t Map<std::uint32_t, std::uint16_t, entries::__Ku32Vu16MapEntry>::size() const noexcept {
-    return stdtybridge$rust_map$k$u32$v$u16$len(this);
-}
-#endif
-
-#if __STDTY_MAP_U32 && __STDTY_MAP_U32
-
-template <>
-void Map<std::uint32_t, std::uint32_t, entries::__Ku32Vu32MapEntry>::drop() noexcept {
-    return stdtybridge$rust_map$k$u32$v$u32$drop(this);
+entries::__KboolVstringMapEntry Map<bool, rust::string, entries::__KboolVstringMapEntry>::pop_first() noexcept {
+    return stdtybridge$rust_map$k$bool$v$string$pop_first(this);
 }
 
 template <>
-entries::__Ku32Vu32MapEntry Map<std::uint32_t, std::uint32_t, entries::__Ku32Vu32MapEntry>::pop_first() noexcept {
-    return stdtybridge$rust_map$k$u32$v$u32$pop_first(this);
+std::size_t Map<bool, rust::string, entries::__KboolVstringMapEntry>::size() const noexcept {
+    return stdtybridge$rust_map$k$bool$v$string$len(this);
 }
 
 template <>
-std::size_t Map<std::uint32_t, std::uint32_t, entries::__Ku32Vu32MapEntry>::size() const noexcept {
-    return stdtybridge$rust_map$k$u32$v$u32$len(this);
-}
-#endif
-
-}
+void Map<rust::string, std::int16_t, entries::__KstringVi16MapEntry>::drop() noexcept {
+    return stdtybridge$rust_map$k$string$v$i16$drop(this);
 }
 
-    
+template <>
+entries::__KstringVi16MapEntry Map<rust::string, std::int16_t, entries::__KstringVi16MapEntry>::pop_first() noexcept {
+    return stdtybridge$rust_map$k$string$v$i16$pop_first(this);
+}
+
+template <>
+std::size_t Map<rust::string, std::int16_t, entries::__KstringVi16MapEntry>::size() const noexcept {
+    return stdtybridge$rust_map$k$string$v$i16$len(this);
+}
+
+template <>
+void Map<rust::string, bool, entries::__KstringVboolMapEntry>::drop() noexcept {
+    return stdtybridge$rust_map$k$string$v$bool$drop(this);
+}
+
+template <>
+entries::__KstringVboolMapEntry Map<rust::string, bool, entries::__KstringVboolMapEntry>::pop_first() noexcept {
+    return stdtybridge$rust_map$k$string$v$bool$pop_first(this);
+}
+
+template <>
+std::size_t Map<rust::string, bool, entries::__KstringVboolMapEntry>::size() const noexcept {
+    return stdtybridge$rust_map$k$string$v$bool$len(this);
+}
+
+template <>
+void Map<rust::string, rust::string, entries::__KstringVstringMapEntry>::drop() noexcept {
+    return stdtybridge$rust_map$k$string$v$string$drop(this);
+}
+
+template <>
+entries::__KstringVstringMapEntry Map<rust::string, rust::string, entries::__KstringVstringMapEntry>::pop_first() noexcept {
+    return stdtybridge$rust_map$k$string$v$string$pop_first(this);
+}
+
+template <>
+std::size_t Map<rust::string, rust::string, entries::__KstringVstringMapEntry>::size() const noexcept {
+    return stdtybridge$rust_map$k$string$v$string$len(this);
+}
+
+}  // namespace stdtybridge
+}  // namespace rust2

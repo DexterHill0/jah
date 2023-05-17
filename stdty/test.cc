@@ -1,36 +1,33 @@
+
 #include "test.h"
 
 #include <iostream>
 
 // Map *get() {
-//     // std::map<uint8_t, uint8_t> map{{20, 10}, {200, 100}, {60, 15}, {69, 69}};
-//     // std::unique_ptr<Map> x = std::make_unique<Map>(map);
-
-//     // return x.release();
-
-//     Map map{{"a", 10}, {"c", 20}, {"e", 30}};
+//     std::map<uint8_t, uint8_t> map{{20, 10}, {200, 100}, {60, 15}, {69, 69}};
 //     std::unique_ptr<Map> x = std::make_unique<Map>(map);
 
 //     return x.release();
 // }
 
-// Map pass_intermediary(RustMap& map) {
-//     auto new_map = Map{};
+Map pass_intermediary(RustMap& map) {
+    auto new_map = Map{};
 
-//     for (std::size_t i = 0; i < map.size(); i++) {
-//         auto pair = map.pop_first();
+    for (std::size_t i = 0; i < map.size(); i++) {
+        // auto pair = map.pop_first();
 
-//         new_map.insert(std::make_pair(pair.key, pair.value));
-//     }
+        // new_map.insert(std::make_pair(pair.key, pair.value));
+    }
 
-//     return new_map;
-// }
+    return new_map;
+}
 
-// void pass(RustMap& mmap) {
-//     auto map = pass_intermediary(mmap);
+void pass(RustMap& mmap) {
+    auto map = pass_intermediary(mmap);
 
-//     std::cout << map.size() << std::endl;
-// }
+    std::cout << map.size() << std::endl;
+    std::cout << map["aaa"] << std::endl;
+}
 
 // std::unique_ptr<std::vector<uint8_t>> __get_vec() {
 //     std::vector<uint8_t> vec = {
