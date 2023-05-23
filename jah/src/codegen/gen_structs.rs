@@ -32,11 +32,11 @@ fn format_type(typ: &Type) -> String {
         BaseType::Raw(s) => s.replace("::", "_"),
         BaseType::Special(s) => match s {
             SpecialType::STDArray { typ, size } => format!("[{}; {}]", format_type(typ), size),
-            SpecialType::Vector(typ) => format!("cxx::CxxVector<{}>", format_type(typ)),
+            SpecialType::Vector(typ) => format!("stdty::Vector<{}>", format_type(typ)),
             SpecialType::GDMap { key, value } => {
                 format!("todo!({}, {})", format_type(key), format_type(value))
             }
-            SpecialType::GDString => "cxx::CxxString".into(),
+            SpecialType::GDString => "stdty::String".into(),
         },
     };
 
@@ -148,9 +148,13 @@ pub fn gen_structs(classes: &BromaData, modules: &mut HashMap<String, String>) -
 
         out += &format!(
             r#"#[repr(C)]
-#[derive(Clone, Debug, Hash)]
+#[derive(Clone, Debug, Hash, Inherits(CCNode))]
 struct {name} {{
     {members}
+}}
+
+impl {name} {{
+
 }}
 "#,
             name = def.name,

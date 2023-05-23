@@ -12,6 +12,7 @@ crate-type = ["dylib"]
 convert_case = "0.6.0"
 
 bruma = { version = "0.1.0", path = "../bruma" }
+stdty = { version = "0.1.0", path = "../stdty" }
 
 
 # [build-dependencies]

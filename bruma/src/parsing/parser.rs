@@ -129,12 +129,7 @@ impl<'a> Parser<'a> {
             self.expect_tok(Token::Ident)?;
             name += self.slice();
 
-            // println!("{}", self.slice());
-
             if !self.skip_tok(Token::DoubleColon) {
-                if name.matches("::").count() > 1 {
-                    println!("zuz {}", name)
-                }
                 break Ok(name);
             }
             name += "::";

@@ -10,24 +10,24 @@
 //     return x.release();
 // }
 
-Map pass_intermediary(RustMap& map) {
-    auto new_map = Map{};
+// Map pass_intermediary(RustMap& map) {
+//     auto new_map = Map{};
 
-    for (std::size_t i = 0; i < map.size(); i++) {
-        // auto pair = map.pop_first();
+//     for (std::size_t i = 0; i < map.size(); i++) {
+//         // auto pair = map.pop_first();
 
-        // new_map.insert(std::make_pair(pair.key, pair.value));
-    }
+//         // new_map.insert(std::make_pair(pair.key, pair.value));
+//     }
 
-    return new_map;
-}
+//     return new_map;
+// }
 
-void pass(RustMap& mmap) {
-    auto map = pass_intermediary(mmap);
+// void pass(RustMap& mmap) {
+//     auto map = pass_intermediary(mmap);
 
-    std::cout << map.size() << std::endl;
-    std::cout << map["aaa"] << std::endl;
-}
+//     std::cout << map.size() << std::endl;
+//     std::cout << map["aaa"] << std::endl;
+// }
 
 // std::unique_ptr<std::vector<uint8_t>> __get_vec() {
 //     std::vector<uint8_t> vec = {
@@ -45,8 +45,25 @@ void pass(RustMap& mmap) {
 //     return x;
 // }
 
-// std::vector<uint8_t>* get_vec() {
-//     std::unique_ptr<std::vector<::std::uint8_t>> (*get_vec_)() = __get_vec;
+std::vector<uint8_t> get() {
+    std::vector<uint8_t> vec = {
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+    };
 
-//     return get_vec_().release();
-// }
+    return vec;
+}
+
+Test* get_test() {
+    Test* t = new Test();
+
+    std::cout << (int)t->y << std::endl;
+
+    return t;
+}

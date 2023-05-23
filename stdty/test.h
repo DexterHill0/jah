@@ -16,8 +16,21 @@ using RustMap = rust2::Map<rust::String, std::uint8_t, entries::__KstringVboolMa
 
 // // Map *get();
 
-void pass(RustMap& map);
+// void pass(RustMap& map);
 
-Map pass_intermediary(RustMap& map);
+// Map pass_intermediary(RustMap& map);
 
-// std::vector<uint8_t>* get_vec();
+class Test {
+   public:
+    bool b;
+    std::vector<uint8_t>* x;
+    uint8_t y;
+
+    Test() : b(false), y(69) {
+        auto bx = std::make_unique<std::vector<uint8_t>>(std::vector<uint8_t>({10, 20, 30}));
+        this->x = bx.release();
+    }
+};
+
+std::vector<uint8_t> get();
+Test* get_test();

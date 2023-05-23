@@ -1,3 +1,6 @@
+#![feature(abi_thiscall)]
+
+mod cocos_bindings;
 pub(crate) mod codegen;
 
 // #![feature(abi_thiscall)]
@@ -210,3 +213,56 @@ pub(crate) mod codegen;
 // //     static CCContentLayer* create(cocos2d::ccColor4B const& color, float width, float height) = win 0x172a0;
 // //     virtual void setPosition(cocos2d::CCPoint const& pos) = mac 0x464c60, win 0x17400;
 // // }
+
+// custom members
+// hooked methods
+
+/*
+    #include <Geode/Geode.hpp>
+    #include <Geode/modify/MenuLayer.hpp>
+
+    using namespace geode::prelude;
+
+    class $modify(MenuLayer) {
+        int m_customMember;
+
+        void onMoreGames(CCObject*) {
+            CCRotateBy::create
+            FLAlertLayer::create("Geode", "Hello from my custom mod!", "OK")->show();
+        }
+    };
+*/
+
+// modify! {
+//     MenuLayer {
+//         custom_member: i32,
+//     }
+
+//     fn on_more_games(&self, unk: &CCObject) {
+
+//     }
+// }
+
+// trait Hooks {
+//     fn apply_hooks();
+// }
+
+// mod idfjiudjfdif {
+//     use super::CreateHook;
+//     use std::marker::PhantomData;
+
+//     struct CustomField<T, const N: usize>(PhantomData<T>);
+
+//     pub struct ModifyMenuLayer {
+//         custom_member: CustomField<i32, 0>,
+//         // menu layer fields
+//     }
+
+//     impl Hooks for ModifyMenuLayer {
+//         fn apply_hooks() {
+//             // hook on_more_games
+//         }
+//     }
+// }
+// // DLLMain
+// ModifyMenuLayer::apply_hooks();
