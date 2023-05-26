@@ -1,6 +1,6 @@
 #![feature(abi_thiscall)]
 
-mod cocos_bindings;
+pub mod cocos_bindings;
 pub(crate) mod codegen;
 
 // #![feature(abi_thiscall)]
@@ -266,3 +266,6 @@ pub(crate) mod codegen;
 // }
 // // DLLMain
 // ModifyMenuLayer::apply_hooks();
+
+#[test]
+fn t() {}

@@ -10,7 +10,7 @@
 // struct Fake {};
 
 using Map = std::map<std::string, std::uint8_t>;
-using RustMap = rust2::Map<rust::String, std::uint8_t, entries::__KstringVboolMapEntry>;
+using RustMap = rust::Map<rust::String, std::uint8_t, entries::__KstringVboolMapEntry>;
 
 // // // // using Map2 = rust::Map<uint8_t, uint8_t>;
 

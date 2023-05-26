@@ -123,7 +123,7 @@ fn format_members(members: &[IMember]) -> String {
                     format!("pub {}: {}", name.to_case(Case::Snake), format_type(typ))
                 }
                 Member::Padding(by) => match get_address(by) {
-                    Some(addr) => format!("_pad{i}: [bool; 0x{addr:X}]",),
+                    Some(addr) => format!("_pad{i}: [::core::mem::MaybeUninit<u8>; 0x{addr:X}]",),
                     None => {
                         is_deprecated = true;
                         format!("_unk_pad{i}: ()")

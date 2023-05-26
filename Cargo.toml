@@ -3,4 +3,5 @@ members = [
     "bruma",
     "stdty",
     "jah",
+    "macros",
 ]
